@@ -12,7 +12,9 @@ export const metadata = {
 export default function Home() {
   return (
     <div>
-      <Sildebar />
+      <main className='flex min-h-screen mx-auto max-w-7xl'>
+        <Sildebar />
+      </main>
     </div>
   );
 }
