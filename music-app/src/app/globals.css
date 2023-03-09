@@ -2,10 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components{
+@layer components {
     .hoverEffect {
-        @apply cursor-pointer hover:bg-gray-100
+        @apply cursor-pointer hover:bg-gray-100 
         rounded-full p-2 w-[40px] md:w-auto h-[40px] md:h-auto;
-
     }
+    .search {
+        @apply absolute right-[128px] p-2 rounded-r-2xl bg-[#BBBFCA]
+         transition-all duration-1000 shadow-2xl hover:cursor-pointer;
+    }
+}
+
+
+@layer auth {
+  
 }
