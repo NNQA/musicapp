@@ -8,3 +8,10 @@ https://tailwindcss.com/docs/installation/using-postcss
 https://nextjs.org/
 # using 
 https://react-icons.github.io/react-icons
+
+# how to Use the project 
+    ~git clone ....
+    ~npm install
+    ~install reactjsIcon and install tailwindCSS
+    !!! Start project 
+        [npm run dev]
