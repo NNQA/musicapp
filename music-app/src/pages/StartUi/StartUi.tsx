@@ -270,67 +270,134 @@ function StartUi() {
                             </div>
                         </div> */}
                     </div>
-                    <div className='border-l-2 pl-4 shadow-lg w-[300px] h-fit cursor-pointer'>
-                        <h1 className='text-lg font-bold'>
-                            For Artists
-                        </h1>
-                        <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
+                    <div className='flex flex-col space-y-6'>
+                        <div className='border-l-2 pl-4 shadow-lg w-[300px] h-fit cursor-pointer'>
+                            <h1 className='text-lg font-bold'>
+                                For Artists
+                            </h1>
+                            <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
                             hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
-                            <Image
-                                src={mtp}
-                                alt='img artists'
-                                className='h-10 w-10 rounded-full border-2'
-                            />
-                            <div className='space-y-1 w-[100px]'>
-                                <p className='text-sm'>
-                                    Son Tung Mtp
-                                </p>
-                                <p className='flex'>
-                                    <HiUsers></HiUsers>
-                                    <span className='text-xs'>100k.follow</span>
-                                </p>
+                                <Image
+                                    src={mtp}
+                                    alt='img artists'
+                                    className='h-10 w-10 rounded-full border-2'
+                                />
+                                <div className='space-y-1 w-[100px]'>
+                                    <p className='text-sm'>
+                                        Son Tung Mtp
+                                    </p>
+                                    <p className='flex'>
+                                        <HiUsers></HiUsers>
+                                        <span className='text-xs'>100k.follow</span>
+                                    </p>
+                                </div>
+                                <TiTick className='text-gray-600'></TiTick>
                             </div>
-                            <TiTick className='text-gray-600'></TiTick>
-                        </div>
-                        <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
+                            <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
                             hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
-                            <Image
-                                src={wean}
-                                alt='img artists'
-                                className='h-10 w-10 rounded-full border-2'
-                            />
-                            <div className='space-y-1 w-[100px]'>
-                                <p className='text-sm'>
-                                    Wean
-                                </p>
-                                <p className='flex'>
-                                    <HiUsers></HiUsers>
-                                    <span className='text-xs'>100k.follow</span>
-                                </p>
+                                <Image
+                                    src={wean}
+                                    alt='img artists'
+                                    className='h-10 w-10 rounded-full border-2'
+                                />
+                                <div className='space-y-1 w-[100px]'>
+                                    <p className='text-sm'>
+                                        Wean
+                                    </p>
+                                    <p className='flex'>
+                                        <HiUsers></HiUsers>
+                                        <span className='text-xs'>100k.follow</span>
+                                    </p>
+                                </div>
+                                <TiTick className='text-gray-600'></TiTick>
                             </div>
-                            <TiTick className='text-gray-600'></TiTick>
-                        </div>
-                        <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
+                            <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
                             hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
-                            <Image
-                                src={mck}
-                                alt='img artists'
-                                className='h-10 w-10 rounded-full border-2'
-                            />
-                            <div className='space-y-1 w-[100px]'>
-                                <p className='text-sm'>
-                                    MCK
-                                </p>
-                                <p className='flex'>
-                                    <HiUsers></HiUsers>
-                                    <span className='text-xs'>100k.follow</span>
-                                </p>
+                                <Image
+                                    src={mck}
+                                    alt='img artists'
+                                    className='h-10 w-10 rounded-full border-2'
+                                />
+                                <div className='space-y-1 w-[100px]'>
+                                    <p className='text-sm'>
+                                        MCK
+                                    </p>
+                                    <p className='flex'>
+                                        <HiUsers></HiUsers>
+                                        <span className='text-xs'>100k.follow</span>
+                                    </p>
+                                </div>
+                                <TiTick className='text-gray-600'></TiTick>
                             </div>
-                            <TiTick className='text-gray-600'></TiTick>
-                        </div>
 
 
+                        </div>
+                        <div className='border-t-2 pl-4 shadow-2xl w-[300px] h-fit cursor-pointer'>
+                            <h1 className='text-lg font-bold'>
+                                For New Songs
+                            </h1>
+                            <div className='flex items-center space-x-6 my-4 
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-black
+                            '>
+                                <Image
+                                    src={mtp}
+                                    alt='img artists'
+                                    className='h-10 w-10 rounded-full border-2 hover:border-black'
+                                />
+                                <div className='space-y-1 w-[100px]'>
+                                    <p className='text-sm'>
+                                        Anh sai roi
+                                    </p>
+                                    <p className='flex'>
+                                        <HiUsers></HiUsers>
+                                        <span className='text-xs'>200k.Listen</span>
+                                    </p>
+                                </div>
+                                <TiTick className='text-gray-600'></TiTick>
+                            </div>
+                            <div className='flex items-center space-x-6 my-4 
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-black
+                            '>
+                                <Image
+                                    src={wean}
+                                    alt='img artists'
+                                    className='h-10 w-10 rounded-full border-2 hover:border-black'
+                                />
+                                <div className='space-y-1 w-[100px]'>
+                                    <p className='text-xs'>
+                                        Mot nguoi vi em
+                                    </p>
+                                    <p className='flex'>
+                                        <HiUsers></HiUsers>
+                                        <span className='text-xs'>100k.Listen</span>
+                                    </p>
+                                </div>
+                                <TiTick className='text-gray-600'></TiTick>
+                            </div>
+                            <div className='flex items-center space-x-6 my-4 
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-black
+                            '>
+                                <Image
+                                    src={mck}
+                                    alt='img artists'
+                                    className='h-10 w-10 rounded-full border-2 hover:border-black'
+                                />
+                                <div className='space-y-1 w-[100px]'>
+                                    <p className='text-xs'>
+                                        Ai moi la ke xau xa
+                                    </p>
+                                    <p className='flex'>
+                                        <HiUsers></HiUsers>
+                                        <span className='text-xs'>100k.Listen</span>
+                                    </p>
+                                </div>
+                                <TiTick className='text-gray-600'></TiTick>
+                            </div>
+
+
+                        </div>
                     </div>
+
 
                 </div>
             </div>
