@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "startUi-black": {
+        "startUi-blue": {
           50: "#D4D4D4",
           100: "#ABABAB",
           200: "#808080",
