@@ -19,6 +19,9 @@ export default function Component() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cfpassword, setCfpassword] = useState('');
+    const [checkErrorLogin, setCheckErrorLogin] = useState('');
+    const [showpw, setShowpw] = useState(false);
+    const [showCpw, setShowCpw] = useState(false);
 
     const [variant, setVariant] = useState('login');
 
@@ -30,7 +33,6 @@ export default function Component() {
         e.preventDefault();
 
         if (variant === 'login') {
-            console.log("aa");
             try {
                 await signIn('credentials', {
                     email,
@@ -40,7 +42,8 @@ export default function Component() {
                 });
                 // router.push('/user');
             }
-            catch (error) {
+            catch (error: any) {
+                setCheckErrorLogin(error.message);
                 console.log(error)
             }
         }
@@ -54,6 +57,7 @@ export default function Component() {
                 });
                 setVariant('login');
             } catch (error: any) {
+                // setCheckError(true);
                 // console.log(error);
                 console.log(error.message);
             }
@@ -97,14 +101,14 @@ export default function Component() {
     return (
         <div className='flex items-center justify-center h-screen cursor-pointer'>
             <div className="bg-[#EEEEEE] max-w-3xl flex rounded-2xl">
-                <div className="w-1/2">
-                    <div className=" p-2">
+                <div className="w-1/2 mt-1">
+                    <div className=" p-1 ml-2">
                         <p className="text-[#00ADB5] text-2xl font-bold">Explore</p>
                         <p className="text-[#393E46] text-opacity-25 shadow-2xl">Music is the moonlight in the gloomy night of life.</p>
                         <p className="text-[#222831]">
                             {variant === 'login' ? 'Sign In' : 'Sign Up'}</p>
                     </div>
-                    <div className="p-2">
+                    <div className="p-3 ml-2">
                         <form className="item-center space-y-3" onSubmit={hanldeSubmit} >
                             {variant === 'register' && (
                                 <div className="">
@@ -123,36 +127,71 @@ export default function Component() {
                                         : <span className="hidden"></span>}
                                 </div>
                             )}
-                            <div className="flex flex-row space-x-2 items-center">
-                                <Input
-                                    label="Email"
-                                    onChange={(ev: any) => setEmail(ev.target.value)}
-                                    id="email"
-                                    type="email"
-                                    value={email}
-                                />
-                                <HiOutlineMail className="rounded-full h-5 w-5 text-[#393E46]"></HiOutlineMail>
+                            <div>
+                                <div className="flex flex-row space-x-2 items-center">
+
+                                    <Input
+                                        label="Email"
+                                        onChange={(ev: any) => setEmail(ev.target.value)}
+                                        id="email"
+                                        type="email"
+                                        value={email}
+                                    />
+                                    <HiOutlineMail className="rounded-full h-5 w-5 text-[#393E46]"></HiOutlineMail>
+                                </div>
+                                {email.match('@') || (email === '') ?
+                                    ''
+                                    : <span className="text-red-500 text-[10px] ml-2">
+                                        It's not valid email address
+                                    </span>}
                             </div>
                             <div className="flex flex-row space-x-2 items-center">
                                 <Input
                                     label="Password"
                                     onChange={(ev: any) => setPassword(ev.target.value)}
                                     id="password"
-                                    type="password"
+                                    type={`${showpw ? "text" : "password"}`}
                                     value={password}
                                 />
-                                <AiOutlineLock className="rounded-full h-5 w-5 text-[#393E46]"></AiOutlineLock>
+                                <span onClick={() => {
+                                    setShowpw(!showpw),
+                                        console.log(`${showpw ? "text" : "password"}`)
+                                }}>
+                                    <AiOutlineLock className="rounded-full h-5 w-5 text-[#393E46]"
+                                    ></AiOutlineLock>
+                                </span>
+
+                            </div>
+                            <div>
+                                {setCheckErrorLogin === null ?
+                                    <span className="text-red-500 text-[10px] ml-2">
+                                        setCheckErrorLogin
+                                    </span> : ""
+                                }
                             </div>
                             {variant === 'register' && (
-                                <div className="flex flex-row space-x-2 items-center">
-                                    <Input
-                                        label="Cfpassword"
-                                        onChange={(ev: any) => setCfpassword(ev.target.value)}
-                                        id="Cfpassword"
-                                        type="password"
-                                        value={cfpassword}
-                                    />
-                                    <AiOutlineLock className="rounded-full h-5 w-5 text-[#393E46]"></AiOutlineLock>
+                                <div>
+                                    <div className="flex flex-row space-x-2 items-center">
+                                        <Input
+                                            label="Cfpassword"
+                                            onChange={(ev: any) => setCfpassword(ev.target.value)}
+                                            id="Cfpassword"
+                                            type={`${showCpw ? "text" : "password"}`}
+                                            value={cfpassword}
+                                        />
+                                        <span onClick={() => {
+                                            setShowCpw(!showCpw),
+                                                console.log(`${showCpw ? "text" : "password"}`)
+                                        }}>
+                                            <AiOutlineLock className="rounded-full h-5 w-5 text-[#393E46]"
+                                            ></AiOutlineLock>
+                                        </span>
+                                    </div>
+                                    {password !== cfpassword && (cfpassword !== '') ?
+                                        <span className="text-red-500 text-[10px] ml-2">
+                                            Confirmpassword not match together
+                                        </span>
+                                        : ''}
                                 </div>
                             )}
                             <button
@@ -187,10 +226,10 @@ export default function Component() {
                         </form>
                     </div>
                 </div>
-                <div className='w-1/2 p-8'>
+                <div className='w-1/2'>
                     <Image src={headphone}
                         alt="headphone"
-                        className={`${variant === 'register' ? 'rounded-2xl h-full pb-3 pt-2' : 'rounded-xl h-full'}`}
+                        className={`${variant === 'register' ? 'rounded-2xl h-full p-2 border-2 shadow-xl' : 'rounded-2xl h-full p-2 border-2 shadow-xl'}`}
                     />
                 </div>
             </div>
