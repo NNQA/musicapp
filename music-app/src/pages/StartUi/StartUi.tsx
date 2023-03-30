@@ -1,6 +1,6 @@
 
 'use client';
-import React from 'react'
+import React, { useState } from 'react'
 import img from "../../static/backgroundStart.jpg"
 import imgMusic from "../../static/headphone.jpg"
 import imgMusic1 from "../../static/mucic1.jpg"
@@ -11,14 +11,18 @@ import imgMusic5 from "../../static/musicFavorite.jpg"
 import imgTrap from "../../static/trapImg.jpg"
 import imgCm from "../../static/cmMusic.jpg"
 import imgPop from "../../static/popMusic.jpg"
-import imgSlide from "../../static/slideSvg.svg"
+import mtp from "../../static/mtp.jpg"
+import mck from "../../static/mck.jpg"
+import wean from "../../static/wean.png"
 import Image from 'next/image';
-import { HiMenuAlt3 } from "react-icons/hi"
+import { HiMenuAlt3, HiUser } from "react-icons/hi"
 import { IoLogoFacebook } from "react-icons/io"
 import { BsGithub } from "react-icons/bs"
 import { AiFillTwitterCircle } from "react-icons/ai"
 import { BsFillFileEarmarkMusicFill } from "react-icons/bs"
-
+import { TiTick } from "react-icons/ti"
+import { HiUsers } from "react-icons/hi"
+import Carousel from 'react-bootstrap/Carousel';
 import Router from 'next/router';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -26,13 +30,19 @@ import { useSession } from 'next-auth/react'
 
 
 function StartUi() {
+    const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex: number) => {
+        setIndex(selectedIndex);
+    };
+
     const session = useSession();
     const router = useRouter();
     const handleSignIn = () => {
         router.push('/login');
     }
     const handleSignUp = () => {
-        router.push('/register');
+        router.push('/login');
     }
     return (
         <div className=''>
@@ -70,9 +80,11 @@ function StartUi() {
                         </a>
                     </div>
                     <div className='flex flex-row items-center justify-center text-xl'>
-                        <HiMenuAlt3 />
+                        <HiMenuAlt3 className='m-2' />
                         <button className='transition duration-500 hover:shadow-4xl p-2
-                        hover:bg-[#2f2e2c] hover:text-[#ebe9e4] rounded-xl hover:translate-x-5 hover:-translate-y-2'
+                        rounded-xl hover:translate-x-5 hover:-translate-y-2 hover:shadow-2xl
+                        bg-gradient-to-r from-indigo-200 via-purple-100 to-pink-100
+                        '
                             onClick={handleSignIn}
                         >
                             ListenNow
@@ -80,8 +92,8 @@ function StartUi() {
                     </div>
                 </div>
             </div>
-            <div className='flex items-center justify-center p-2'>
-                <div className='space-y-2 ml-[250px]'>
+            <div className='flex items-center justify-center p-2 mt-24'>
+                <div className='space-y-4 ml-[250px]'>
                     <p className='text-[#444443] font-sans font-bold text-xl'>
                         Music Collection 2023
                     </p>
@@ -91,15 +103,23 @@ function StartUi() {
                     <p className='text-lg w-[70%]'>
                         Play POLICY on SoundCloud and discover followers on SoundCloud | Stream tracks, albums, playlists on desktop and mobile.
                     </p>
-                    <button className='transition duration-500 hover:shadow-4xl px-10 py-2
+                    <div className='space-x-6'>
+                        <button className='transition duration-500 hover:shadow-4xl px-10 py-2
+                        border-solid border-2 border-[#2f2e2c] text-xl hover:bg-white hover:text-black
+                        bg-[#2f2e2c] text-[#ebe9e4] rounded-xl hover:translate-x-5 hover:-translate-y-2'
+                            onClick={handleSignIn}
+                        >
+                            Start
+                        </button>
+                        <button className='transition duration-500 hover:shadow-4xl px-10 py-2
                         border-solid border-2 border-[#2f2e2c] text-xl
-                        hover:bg-[#2f2e2c] hover:text-[#ebe9e4] rounded-xl hover:translate-x-5 hover:-translate-y-2'
-                        onClick={handleSignIn}
-                    >
-                        Start
-                    </button>
+                        rounded-xl hover:translate-x-5 hover:-translate-y-2'
+                        >
+                            Documentation
+                        </button>
+                    </div>
                 </div>
-                <div className='pr-[250px]'>
+                <div className='pr-[200px]'>
                     <Image
                         src={imgMusic5}
                         alt="image Music"
@@ -109,128 +129,209 @@ function StartUi() {
                 </div>
 
             </div>
-            <div className='flex flex-row space-x-6 justify-center items-center mt-24'>
-                <div className='relative border-2 border-gray-200 rounded-xl
-                transition duration-300 hover:bg-slate-100 hover:translate-x-2 hover:-translate-y-2
+            <div className='w-fit mx-auto mt-24'>
+                <div className='pb-12'>
+                    <p className='text-lg opacity-20'>
+                        2023 For new Genres
+                    </p>
+                    <h1 className='text-xl opacity'>
+                        New Content 2023
+                    </h1>
+                </div>
+                <div className='flex space-x-10'>
+                    <div className='space-y-5'>
+                        <div className='flex space-x-2 w-fit'>
+
+                            <div className='relative border-2 border-gray-200 rounded-xl
+                transition duration-300 hover:bg-slate-100 hover:translate-x-1 hover:-translate-y-2
                 hover:shadow-2xl hover:border-none '>
-                    <div className='absolute inset-6'>
-                        <h2 className='text-[#303031] font-bold'>
-                            Music communication
-                        </h2>
-                        <p className='text-[#444443]'>
-                            Music 2023
-                        </p>
-                    </div>
-                    <div className='p-5'>
-                        <Image
-                            src={imgMusic}
-                            alt="image Music"
-                            className='rounded-xl h-[220px] w-[300px]'
-                        >
-                        </Image>
-                    </div>
-                </div>
-                <div className='relative border-2 border-gray-200 rounded-xl
+                                <div className='absolute inset-6'>
+                                    <h2 className='text-[#303031] font-bold'>
+                                        Music communication
+                                    </h2>
+                                    <p className='text-[#444443]'>
+                                        Music 2023
+                                    </p>
+                                </div>
+                                <div className='p-2'>
+                                    <Image
+                                        src={imgMusic}
+                                        alt="image Music"
+                                        className='rounded-xl h-[200px] w-[250px]'
+                                    >
+                                    </Image>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex flex-row space-x-2'>
+                            <div className='relative border-2 border-gray-200 rounded-xl
                 transition duration-300 hover:bg-slate-100 hover:translate-x-2 hover:-translate-y-2
                 hover:shadow-2xl hover:border-none'>
-                    <div className='absolute inset-6'>
-                        <h2 className='text-white font-bold'>
-                            Music communication
-                        </h2>
-                        <p className='text-gray-300'>
-                            Trap, Clound, Horror
-                        </p>
-                    </div>
-                    <div className='p-5'>
-                        <Image
-                            src={imgTrap}
-                            alt="image Music"
-                            className='rounded-xl h-[220px] w-[300px]'
-                        >
-                        </Image>
-                    </div>
-                </div>
-                <div className='relative border-2 border-gray-200 rounded-xl
+                                <div className='absolute inset-6'>
+                                    <h2 className='text-[#303031] font-bold'>
+                                        Music communication
+                                    </h2>
+                                    <p className='text-[#444443]'>
+                                        Sing In
+                                    </p>
+                                </div>
+                                <div className='p-2'>
+                                    <Image
+                                        src={imgMusic2}
+                                        alt="image Music"
+                                        className='rounded-xl h-[200px] w-[250px]'
+                                    >
+                                    </Image>
+                                </div>
+                            </div>
+                        </div>
+                        {/* <div className='flex flex-row space-x-2'>
+                            <div className='relative border-2 border-gray-200 rounded-xl
                 transition duration-300 hover:bg-slate-100 hover:translate-x-2 hover:-translate-y-2
                 hover:shadow-2xl hover:border-none'>
-                    <div className='absolute inset-6'>
-                        <h2 className='text-[#303031] font-bold'>
-                            Music communication
-                        </h2>
-                        <p className='text-[#444443]'>
-                            Sing In
-                        </p>
+                                <div className='absolute inset-6'>
+                                    <h2 className='text-white font-bold'>
+                                        Music communication
+                                    </h2>
+                                    <p className='text-gray-300'>
+                                        Trap, Clound, Horror
+                                    </p>
+                                </div>
+                                <div className='p-5'>
+                                    <Image
+                                        src={imgTrap}
+                                        alt="image Music"
+                                        className='rounded-xl h-[220px] w-[300px]'
+                                    >
+                                    </Image>
+                                </div>
+                            </div>
+                        </div> */}
                     </div>
-                    <div className='p-5'>
-                        <Image
-                            src={imgMusic2}
-                            alt="image Music"
-                            className='rounded-xl h-[220px] w-[300px]'
-                        >
-                        </Image>
-                    </div>
-                </div>
-            </div>
-            <div className='flex flex-row space-x-6 justify-center items-center mt-24'>
-                <div className='relative border-2 border-gray-200 rounded-xl
+                    <div className='space-y-5'>
+                        <div className='relative border-2 border-gray-200 rounded-xl
                 transition duration-300 hover:bg-slate-100 hover:translate-x-2 hover:-translate-y-2
                 hover:shadow-2xl hover:border-none'>
-                    <div className='absolute inset-6'>
-                        <h2 className='text-[#303031] font-bold'>
-                            New Type Music
-                        </h2>
-                        <p className='text-[#444443]'>
-                            Communication to Anyone
-                        </p>
-                    </div>
-                    <div className='p-5'>
-                        <Image
-                            src={imgCm}
-                            alt="image Music"
-                            className='rounded-xl h-[220px] w-[300px]'
-                        >
-                        </Image>
-                    </div>
-                </div>
-                <div className='relative border-2 border-gray-200 rounded-xl
+                            <div className='absolute inset-6'>
+                                <h2 className='text-[#303031] font-bold'>
+                                    New Type Music
+                                </h2>
+                                <p className='text-[#444443]'>
+                                    Communication to Anyone
+                                </p>
+                            </div>
+                            <div className='p-2'>
+                                <Image
+                                    src={imgCm}
+                                    alt="image Music"
+                                    className='rounded-xl h-[200px] w-[250px]'
+                                >
+                                </Image>
+                            </div>
+                        </div>
+                        <div className='relative border-2 border-gray-200 rounded-xl
                 transition duration-300 hover:bg-slate-100 hover:translate-x-2 hover:-translate-y-2
                 hover:shadow-2xl hover:border-none'>
-                    <div className='absolute inset-6'>
-                        <h2 className='text-[#303031] font-bold'>
-                            Time For Social
-                        </h2>
-                        <p className='text-[#444443]'>
-                            Explore Collection
-                        </p>
-                    </div>
-                    <div className='p-5'>
-                        <Image
-                            src={imgMusic1}
-                            alt="image Music"
-                            className='rounded-xl h-[220px] w-[300px]'
-                        >
-                        </Image>
-                    </div>
-                </div>
-                <div className='relative border-2 border-gray-200 rounded-xl
+                            <div className='absolute inset-6'>
+                                <h2 className='text-[#303031] font-bold'>
+                                    Time For Social
+                                </h2>
+                                <p className='text-[#444443]'>
+                                    Explore Collection
+                                </p>
+                            </div>
+                            <div className='p-2'>
+                                <Image
+                                    src={imgMusic1}
+                                    alt="image Music"
+                                    className='rounded-xl h-[200px] w-[250px]'
+                                >
+                                </Image>
+                            </div>
+                        </div>
+                        {/* <div className='relative border-2 border-gray-200 rounded-xl
                 transition duration-300 hover:bg-slate-100 hover:translate-x-2 hover:-translate-y-2
                 hover:shadow-2xl hover:border-none'>
-                    <div className='absolute inset-6'>
-                        <h2 className='text-white font-bold'>
-                            Popular Music Genres
-                        </h2>
-                        <p className='text-gray-300'>
-                            What's Pop Music?
-                        </p>
+                            <div className='absolute inset-6'>
+                                <h2 className='text-white font-bold'>
+                                    Popular Music Genres
+                                </h2>
+                                <p className='text-gray-300'>
+                                    What's Pop Music?
+                                </p>
+                            </div>
+                            <div className='p-5'>
+                                <Image
+                                    src={imgPop}
+                                    alt="image Music"
+                                    className='rounded-xl h-[220px] w-[300px]'
+                                >
+                                </Image>
+                            </div>
+                        </div> */}
                     </div>
-                    <div className='p-5'>
-                        <Image
-                            src={imgPop}
-                            alt="image Music"
-                            className='rounded-xl h-[220px] w-[300px]'
-                        >
-                        </Image>
+                    <div className='border-l-2 pl-4 shadow-lg w-[300px] h-fit cursor-pointer'>
+                        <h1 className='text-lg font-bold'>
+                            For Artists
+                        </h1>
+                        <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
+                            <Image
+                                src={mtp}
+                                alt='img artists'
+                                className='h-10 w-10 rounded-full border-2'
+                            />
+                            <div className='space-y-1 w-[100px]'>
+                                <p className='text-sm'>
+                                    Son Tung Mtp
+                                </p>
+                                <p className='flex'>
+                                    <HiUsers></HiUsers>
+                                    <span className='text-xs'>100k.follow</span>
+                                </p>
+                            </div>
+                            <TiTick className='text-gray-600'></TiTick>
+                        </div>
+                        <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
+                            <Image
+                                src={wean}
+                                alt='img artists'
+                                className='h-10 w-10 rounded-full border-2'
+                            />
+                            <div className='space-y-1 w-[100px]'>
+                                <p className='text-sm'>
+                                    Wean
+                                </p>
+                                <p className='flex'>
+                                    <HiUsers></HiUsers>
+                                    <span className='text-xs'>100k.follow</span>
+                                </p>
+                            </div>
+                            <TiTick className='text-gray-600'></TiTick>
+                        </div>
+                        <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
+                            <Image
+                                src={mck}
+                                alt='img artists'
+                                className='h-10 w-10 rounded-full border-2'
+                            />
+                            <div className='space-y-1 w-[100px]'>
+                                <p className='text-sm'>
+                                    MCK
+                                </p>
+                                <p className='flex'>
+                                    <HiUsers></HiUsers>
+                                    <span className='text-xs'>100k.follow</span>
+                                </p>
+                            </div>
+                            <TiTick className='text-gray-600'></TiTick>
+                        </div>
+
+
                     </div>
+
                 </div>
             </div>
             <div className='flex flex-row justify-center items-center space-x-10 h-screen'>
@@ -256,33 +357,35 @@ function StartUi() {
                     </button>
                 </div>
             </div>
-            <div className='flex flex-col justify-center items-center space-y-4 p-4'>
+            <div className='flex flex-col justify-center items-center space-y-4 p-4 mb-12'>
                 <h1 className='text-3xl font-bold'>
                     Thanks for listening. Now join in.
                 </h1>
                 <p className='text-2xl'>
                     Save tracks, follow artists and build playlists. All for free.
                 </p>
-                <button className='transition duration-500 hover:shadow-4xl p-3
-                        bg-[#2f2e2c] text-white rounded-full text-xl
-                        hover:translate-x-5 hover:-translate-y-2
-                        hover:text-black hover:bg-white hover:border-2 hover:border-black'
-                    onClick={handleSignUp}
-                >
-                    Create Account
-                </button>
-                <div className='flex space-x-4 items-center'>
-                    <p>
-                        Already have an account?
+                <div className='flex flex-col space-y-6'>
+                    <p className='w-[50%] mx-auto'>
+                        We've got the music and sound effects you need to take your content to the next level.
                     </p>
-                    <button className='transition duration-500 hover:shadow-4xl px-4 py-2
-                        hover:bg-[#2f2e2c] hover:text-white rounded-full 
-                        hover:translate-x-5 hover:-translate-y-2 text-sm
-                        border-2 border-[#2f2e2c]'
-                        onClick={handleSignIn}
-                    >
-                        SignIn
-                    </button>
+                    <div className='mx-auto space-x-3'>
+                        <button className='transition duration-500 hover:shadow-4xl px-4 py-2
+                        hover:bg-[#2f2e2c] hover:text-white rounded-md
+                        hover:translate-x-2 hover:-translate-y-2 text-lg
+                        border-2 border-[#2f2e2c] mx-auto'
+                            onClick={handleSignIn}
+                        >
+                            Explore Now
+                        </button>
+                        <button className='transition duration-500 hover:shadow-4xl px-4 py-2
+                        hover:bg-[#2f2e2c] hover:text-white rounded-md
+                        hover:translate-x-5 hover:-translate-y-2 text-lg
+                        border-2 border-[#2f2e2c] mx-auto'
+                            onClick={handleSignIn}
+                        >
+                            Listen Now
+                        </button>
+                    </div>
                 </div>
             </div>
             <div className='bg-[#f4f3f3] grid grid-cols-4 items-center'>
