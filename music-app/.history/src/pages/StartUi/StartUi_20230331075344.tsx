@@ -129,7 +129,7 @@ function StartUi() {
                 </div>
 
             </div>
-            <div className='w-fit mx-auto mt-24 bg-willow-grove-50 py-12 px-24 rounded-2xl'>
+            <div className='w-fit mx-auto mt-24 bg-willow-grove-50 p-24 rounded-2xl'>
                 <div className='pb-12'>
                     <p className='text-lg opacity-20'>
                         2023 For new Genres

@@ -129,7 +129,7 @@ function StartUi() {
                 </div>
 
             </div>
-            <div className='w-fit mx-auto mt-24 bg-willow-grove-50 py-12 px-24 rounded-2xl'>
+            <div className='w-fit mx-auto mt-24 bg-slate-100 p-5 rounded-2xl'>
                 <div className='pb-12'>
                     <p className='text-lg opacity-20'>
                         2023 For new Genres
@@ -271,7 +271,7 @@ function StartUi() {
                         </div> */}
                     </div>
                     <div className='flex flex-col space-y-6'>
-                        <div className='border-l-2 pl-4 shadow-xl w-[300px] h-fit cursor-pointer bg-white'>
+                        <div className='border-l-2 pl-4 shadow-lg w-[300px] h-fit cursor-pointer'>
                             <h1 className='text-lg font-bold'>
                                 For Artists
                             </h1>
@@ -332,7 +332,7 @@ function StartUi() {
 
 
                         </div>
-                        <div className='border-t-2 pl-4 shadow-2xl w-[300px] h-fit cursor-pointer bg-white'>
+                        <div className='border-t-2 pl-4 shadow-2xl w-[300px] h-fit cursor-pointer'>
                             <h1 className='text-lg font-bold'>
                                 For New Songs
                             </h1>
