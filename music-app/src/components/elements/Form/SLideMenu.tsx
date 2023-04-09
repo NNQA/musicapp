@@ -8,17 +8,17 @@ import { RiSearchLine } from "react-icons/ri"
 import { BiMenuAltRight } from "react-icons/bi"
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
+import { getSession, signOut } from "next-auth/react";
 
-function SLideMenu({pages, setPages}: any) {
-    const router = useRouter();
-    const handleSignIn = () => {
-        router.push('/login');
+
+function SLideMenu({ pages, setPages }: any) {
+
+    const handleSignOut = () => {
+        signOut();
     }
-
     return (
-        <div className='xl:m-8'>
+        <div className='xl:m-8 pl-6'>
             <div className='flex items-center space-x-2 text-[#413543] pb-3'>
-                <img src={iconPlayit}></img>
                 <p className='text-2xl hidden xl:inline font-font-slide'>Music Social</p>
             </div>
             <div className='flex items-center space-x-2 text-[#413543]'>
@@ -36,6 +36,11 @@ function SLideMenu({pages, setPages}: any) {
                         </li>
                     ])}
                 </ul>
+            </div>
+            <div className='text-xl w-2/3 rounded-2xl px-5 py-1
+           bg-slate-200 cursor-pointer'
+                onClick={handleSignOut}>
+                Log out
             </div>
         </div>
     )
