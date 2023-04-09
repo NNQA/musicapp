@@ -47,15 +47,11 @@ function index() {
     fetch("/api/song", { method: 'post', body: formData })
   }
   return (
-    <div className='h-full]'>
-      <div className='flex h-screen'>
-        <div className='shadow-2xl w-[20%]'>
+    <div className='h-full'>
+      <div className='flex'>
+        <div className='w-[20%]'>
           <SLideMenu pages={pages} setPages={setPages} />
-          <div className='text-xl ml-[30px] border-2 w-fit px-4 py-1 rounded-2xl
-           bg-slate-200 cursor-pointer'
-            onClick={handleSignOut}>
-            Log out
-          </div>
+          
         </div>
 
         <div className='w-full'>

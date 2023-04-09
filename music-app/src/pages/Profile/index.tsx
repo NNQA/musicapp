@@ -4,14 +4,19 @@ import { NextPageContext } from 'next'
 import Userimg from "../../static/user.png"
 import Image from 'next/image';
 import userCurrent from '@/hook/currentuser';
-import { data } from '@/components/elements/Form/data';
 import Modaledit from '@/components/elements/Form/Modaledit';
 import { AiFillPlayCircle, AiFillPauseCircle, AiOutlineHeart } from "react-icons/ai"
 import audio from "../../../public/aa.mp3"
-import WaveSurfer from "wavesurfer.js";
+import { CgMore } from "react-icons/cg"
+import mtp from "../../static/mtp.jpg"
+import mck from "../../static/mck.jpg"
+import wean from "../../static/wean.png"
+import { TiTick } from "react-icons/ti"
+import { HiUsers } from "react-icons/hi"
+import { dataSong } from "@/lib/dataStaticSong"
 
 
-import { WaveSurferParams } from 'wavesurfer.js/types/params';
+import MediaPlayer from '@/components/elements/Form/MediaPlayerProfile';
 
 
 // export async function getServerSideProps(context: NextPageContext) {
@@ -36,13 +41,13 @@ function index() {
   const session = useSession();
   const [action, setAction] = useState(false);
   const [actionModal, setActionModal] = useState(true);
-
+  const mediaRef = useRef(null);
 
 
 
 
   return (
-    <div className='px-20 pb-5'>
+    <div className='px-20 pb-5 shadow-md'>
       <div className='bg-slate-200 pb-1'>
         <div className='flex relative items-center p-10 bg-gray-500 text-white'>
           <Image
@@ -63,9 +68,9 @@ function index() {
         <div className='flex flex-row justify-between mr-10'>
           <Modaledit actionModal={actionModal} setActionModal={setActionModal}
           ></Modaledit>
-          <div className='space-x-5 mt-8'>
+          <div className='space-x-5 mt-8 mr-14'>
             <button className='border-2 bg-[#f50] p-2 rounded-lg text-white'>Your Insights</button>
-            <button className='border-2 bg-white p-2 rounded-lg'>Share</button>
+            <button className='border-2 bg-white px-3 py-2 rounded-lg'>Share</button>
             <button className='border-2 bg-white p-2 rounded-lg'>Station</button>
           </div>
 
@@ -80,37 +85,136 @@ function index() {
 
 
       {actionModal ?
-        <div className='px-6 border-2 py-3 cursor-pointer w-full'>
-          <div className='flex ml-12 p-2'>
-            <div>
-              <Image
-                src={Userimg}
-                alt="Image Item"
-                className='h-50 w-25 rounded-md bg-slate-50 p-2'>
-              </Image>
-            </div>
-            <div className='w-full ml-4'>
-
-              <div className='p-2'>
+        <div className='px-6 cursor-pointer w-full flex border-2'>
+          <ul className='basis-4/6 w-full'>
+            {dataSong.map((item, idx) => (
+              <li className='border-r-2 p-2 flex border-b-[1px]'>
                 <div>
-                  <p>tile Song Name</p>
+                  <img
+                    src={item.img}
+                    alt="Image Item"
+                    className='rounded-md bg-slate-50 p-2'
+                    >
+                  </img>
                 </div>
-              </div>
-              <div className='p-2 flex space-x-5 w-full' onClick={() => setAction(!action)}>
-                <audio controls className='rounded-full w-2/3'
-                  src={audio}>
+                <div className='w-full ml-4'>
 
-                </audio>
-                <div className='border-2 w-fit flex items-center px-2 space-x-4 rounded-md'>
+                  <div className='p-2'>
+                    <div>
+                      <p>{item.title}</p>
+                    </div>
+                  </div>
+                  <div className='p-2 flex space-x-2' onClick={() => setAction(!action)}>
+                    <div className='w-full'>
+                      <MediaPlayer src={item.audio} />
+                      <audio ref={mediaRef} />
+                    </div>
+                    <div className='border-2 w-fit flex items-center px-2 space-x-4 rounded-md'>
 
-                  <AiOutlineHeart></AiOutlineHeart>
-                  <p className='text-sm'>100</p>
+                      <AiOutlineHeart></AiOutlineHeart>
+                      <p className='text-sm'>100</p>
+                    </div>
+                    <div className='border-2 w-fit flex items-center px-2 space-x-4 rounded-md'>
+                      <CgMore></CgMore>
+                      <p className='text-sm'>More</p>
+                    </div>
+                  </div>
+                  <div>
+                  </div>
                 </div>
-                <div className='border-2 w-fit flex items-center px-2 space-x-4 rounded-md'>
-                  <p className='text-sm'>More</p>
+              </li>
+            ))}
+          </ul>
+
+          <div className='w-fit ml-12 py-4'>
+            <div className='h-[200px] border-b-[1px]'>
+              <div className=' flex space-x-12 h-[30%]'>
+                <div className='border-r-[1px]'>
+                  <p className='pr-12'>
+                    Follower
+                  </p>
+                  <p>
+                    0
+                  </p>
+                </div>
+                <div className='border-r-[1px]'>
+                  <p className='pr-12'>
+                    Following
+                  </p>
+                  <p>
+                    0
+                  </p>
+                </div>
+                <div className=''>
+                  <p className='pr-12'>
+                    Track
+                  </p>
+                  <p>
+                    0
+                  </p>
                 </div>
               </div>
             </div>
+            <div>
+              <h1 className='text-lg font-bold'>
+                For Artists
+              </h1>
+              <div className='flex items-center space-x-6 my-4 hover:shadow-xl
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
+                <Image
+                  src={mtp}
+                  alt='img artists'
+                  className='h-10 w-10 rounded-full border-2'
+                />
+                <div className='space-y-1 w-[100px]'>
+                  <p className='text-sm'>
+                    Son Tung Mtp
+                  </p>
+                  <p className='flex'>
+                    <HiUsers></HiUsers>
+                    <span className='text-xs'>100k.follow</span>
+                  </p>
+                </div>
+                <TiTick className='text-gray-600'></TiTick>
+              </div>
+              <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
+                <Image
+                  src={wean}
+                  alt='img artists'
+                  className='h-10 w-10 rounded-full border-2'
+                />
+                <div className='space-y-1 w-[100px]'>
+                  <p className='text-sm'>
+                    Wean
+                  </p>
+                  <p className='flex'>
+                    <HiUsers></HiUsers>
+                    <span className='text-xs'>100k.follow</span>
+                  </p>
+                </div>
+                <TiTick className='text-gray-600'></TiTick>
+              </div>
+              <div className='flex items-center space-x-6 my-4 hover:shadow-xl 
+                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500'>
+                <Image
+                  src={mck}
+                  alt='img artists'
+                  className='h-10 w-10 rounded-full border-2'
+                />
+                <div className='space-y-1 w-[100px]'>
+                  <p className='text-sm'>
+                    MCK
+                  </p>
+                  <p className='flex'>
+                    <HiUsers></HiUsers>
+                    <span className='text-xs'>100k.follow</span>
+                  </p>
+                </div>
+                <TiTick className='text-gray-600'></TiTick>
+              </div>
+            </div>
+
           </div>
         </div>
         : ''}
