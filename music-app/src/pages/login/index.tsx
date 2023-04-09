@@ -170,7 +170,7 @@ export default function Component() {
                                 }
                             </div>
                             {variant === 'register' && (
-                                <div>
+                                <div className="pb-3">
                                     <div className="flex flex-row space-x-2 items-center">
                                         <Input
                                             label="Cfpassword"
@@ -195,7 +195,7 @@ export default function Component() {
                                 </div>
                             )}
                             <button
-                                className="bg-[#393E46] w-[80%] p-1 rounded-2xl bg-opacity-20
+                                className="bg-[#393E46] w-[86%] p-1 rounded-2xl bg-opacity-20
                                 transition duration-300 hover:translate-x-2 hover:shadow-2xl hover:-translate-y-2">
                                 {variant === 'login' ? 'Log in' : 'Register'}
                             </button>
@@ -209,7 +209,7 @@ export default function Component() {
                             {variant === 'login' && (
                                 <div className="bg-[#393E46] p-1 rounded-2xl bg-opacity-20
                                 transition duration-300 hover:translate-x-2 hover:shadow-2xl 
-                                hover:-translate-y-2 flex items-center justify-center w-[80%]"
+                                hover:-translate-y-2 flex items-center justify-center w-[86%]"
                                     onClick={handleSignInGG}>
                                     <p>Log in with Google</p>
                                     <FcGoogle className="pt-1 h-5 w-5" />
