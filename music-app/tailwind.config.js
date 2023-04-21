@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        "font-slide": ["Oswald","sans-serif"],
+        "font-slide": ["Oswald", "sans-serif"],
       },
       colors: {
         "startUi-black": {
@@ -25,7 +25,7 @@ module.exports = {
           700: "#000000",
           800: "#000000",
           900: "#000000",
-          950: "#000000"
+          950: "#000000",
         },
         "willow-grove": {
           50: "#f6f7f6",
@@ -40,8 +40,8 @@ module.exports = {
           900: "#30322f",
           950: "#191b18",
         },
-      }
+      },
     },
   },
   plugins: [],
-}
+};
