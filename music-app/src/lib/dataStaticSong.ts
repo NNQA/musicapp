@@ -9,3 +9,19 @@ export const dataSong = [
     {title: "There's not at all",audio:audio,state: false ,img:"https://35express.org/wp-content/uploads/2021/04/thong-tin-tieu-su-ve-son-tung-m-tp-35express.jpg"},
     {title: "Nang Am Xa Dan",audio:audio,state: false ,img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuQMtEKyHoHlbxM2FVC3a95QanJ34D-IcvOg&usqp=CAU"},
 ]
+
+export const dataMore = [
+    {
+        state : "Insights"
+    },
+    {
+        state : "Share"
+    },
+    {
+        state : "Station"
+    },
+    {
+        state : "Delete"
+    },
+
+]

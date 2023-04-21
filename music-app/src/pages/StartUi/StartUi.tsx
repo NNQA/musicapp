@@ -22,11 +22,7 @@ import { AiFillTwitterCircle } from "react-icons/ai"
 import { BsFillFileEarmarkMusicFill } from "react-icons/bs"
 import { TiTick } from "react-icons/ti"
 import { HiUsers } from "react-icons/hi"
-import Carousel from 'react-bootstrap/Carousel';
-import Router from 'next/router';
-import Link from 'next/link';
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 
 
 function StartUi() {
@@ -36,7 +32,6 @@ function StartUi() {
         setIndex(selectedIndex);
     };
 
-    const session = useSession();
     const router = useRouter();
     const handleSignIn = () => {
         router.push('/login');

@@ -5,9 +5,13 @@
 
 // module.exports = nextConfig
 module.exports = {
+  experimental: {
+    appDir: true,
+    typedRoutes: true,
+  },
   reactStrictMode: true,
   images: {
-    domains: ['assets.example.com'],
+    domains: ['res.cloudinary.com'],
   },
   webpack(config, options) {
     const { isServer } = options;
