@@ -2,19 +2,45 @@ import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { AiFillPlayCircle, AiFillPauseCircle, AiOutlineHeart } from "react-icons/ai"
 import { dataSong } from "@/lib/dataStaticSong"
-
+import { connect } from 'react-redux';
+import { Dispatch, SetStateAction } from 'react';
 interface Props {
   src: string;
+  index: number;
 }
 
-const MediaPlayer: React.FC<Props> = ({ src }) => {
+type HandlePlayPauseProps = {
+  isPlaying: boolean;
+  setIsPlaying: Dispatch<SetStateAction<boolean>>;
+  audioRef: React.RefObject<HTMLAudioElement>;
+};
+const mapStateToProps = (state: any) => {
+  return {
+    currentTrackIndex: state.currentTrackIndex,
+    isPlaying: state.isPlaying
+  };
+};
+
+const mapDispatchToProps = (dispatch: any)=> {
+  return {
+    playTrack: (index: number) => {
+      dispatch({ type: 'PLAY_TRACK', payload: index });
+    },
+    pauseTrack: () => {
+      dispatch({ type: 'PAUSE_TRACK' });
+    }
+  };
+};
+
+
+const MediaPlayer: React.FC<Props> = ({ src, index }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const mediaRef = useRef<HTMLAudioElement>(null);
 
-  const handlePlaying = () => {
+  const handlePlaying = (index: number) => {
     togglePlay();
     
   }
@@ -88,7 +114,7 @@ const MediaPlayer: React.FC<Props> = ({ src }) => {
   return (
     <div className='flex items-center shadow-lg rounded-full py-1'>
       <audio ref={mediaRef} src={src} onTimeUpdate={handleTimeUpdate} onLoadedMetadata={(e: any) => setDuration(e.currentTarget.duration)} />
-      <div onClick={handlePlaying}>
+      <div onClick={() => handlePlaying(index)}>
         {!isPlaying ?
           <AiFillPlayCircle className='w-6 h-6'></AiFillPlayCircle>
           : <AiFillPauseCircle className='w-6 h-6'></AiFillPauseCircle>}
@@ -111,7 +137,7 @@ const MediaPlayer: React.FC<Props> = ({ src }) => {
         step={0.0001}
         value={volume}
         onChange={handleVolumeChange}
-        className='appearance-none w-16'
+        className='appearance-none w-16 rounded-xl bg-none py-1 px-2'
       />
       </div>
     </div>
@@ -125,4 +151,4 @@ function formatTime(time: number): string {
 }
 
 
-export default MediaPlayer;
+export default connect(mapStateToProps, mapDispatchToProps)(MediaPlayer);

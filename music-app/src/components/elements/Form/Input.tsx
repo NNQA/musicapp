@@ -21,11 +21,12 @@ const Input : React.FC<InputProps> = ({
                 value={value}
                 id={id}
                 className="border-2 
-                    rounded-2xl p-2 pt-2
+                    rounded-md p-2 pt-2
                     block text-md appearance-none
                     focus:outline-none
                     focus:right-0
-                    peer placeholder-transparent w-full"
+                    peer placeholder-transparent w-full
+                    text-black"
                 placeholder=" "
             />
             <label
