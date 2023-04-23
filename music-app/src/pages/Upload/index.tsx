@@ -1,72 +1,203 @@
-import React from 'react'
-import { IoLogoFacebook } from "react-icons/io"
-import { BsGithub } from "react-icons/bs"
-import { AiFillTwitterCircle } from "react-icons/ai"
+import React, { useEffect, useState } from "react";
+import { IoLogoFacebook } from "react-icons/io";
+import { BsGithub } from "react-icons/bs";
+import { AiFillTwitterCircle } from "react-icons/ai";
+import { message, Upload } from "antd";
+import userCurrent from "@/hook/currentuser";
+import { getSession } from "next-auth/react";
+import { Session } from "next-auth";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import ClipLoader from "react-spinners/ClipLoader";
+import { ToastContainer, toast } from "react-toastify";
+import { findSongExist } from "../api/song/server";
+import { prisma } from "@/server/prisma";
 
 function index() {
+  const [image, setImage] = useState("");
+  const [name, setName] = useState("");
+  const [descript, setDescription] = useState("");
+  const [imgCl, setImgCl] = useState("");
+  const [audioCl, setAudioCl] = useState("");
+  const { data: userI } = userCurrent();
+  const [loading, setLoading] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const [errorLogin, setErrorLogin] = useState("");
+  const [success, setSuccess] = useState("");
+  let option = "getone";
+  useEffect(() => {
+    getSession({}).then((session) => {
+      if (session !== null) {
+        setSession(session);
+      }
+    });
+  }, []);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    const form = e.currentTarget;
+
+    const fileImages = Array.from(form.elements).find(
+      ({ name }: any) => name === "file"
+    ) as HTMLInputElement;
+    const fileAudios = Array.from(form.elements).find(
+      ({ name }: any) => name === "mp3"
+    ) as HTMLInputElement;
+    const formData = new FormData(form);
+    const fileImage = fileImages.files
+      ? Array.from(fileImages.files as unknown as File[])
+      : [];
+    const fileAudio = fileAudios.files
+      ? Array.from(fileAudios.files as unknown as File[])
+      : [];
+    for (const file of fileImage) {
+      formData.append("image", file);
+    }
+    for (const audio of fileAudio) {
+      formData.append("audio", audio);
+    }
+    const id: string = userI.id;
+    formData.append("id", id);
+    try {
+      const tempVariant: AxiosResponse = await axios.post(
+        "/api/song/server",
+        formData
+      );
+      setLoading(false);
+      setErrorLogin("");
+      setSuccess("Successfully");
+      setImgCl("");
+      setAudioCl("");
+      setImage("");
+      setDescription("");
+    } catch (error: any) {
+      setErrorLogin(error.response.data.message);
+      setLoading(false);
+      console.log(error.response.data.message);
+    }
+    setImgCl("");
+    setAudioCl("");
+    setImage("");
+    setDescription("");
+    // } else {
+    //   setLoading(false);
+    //   setErrorLogin(
+    //     "Bad Request your fileAudio and your File Image have trouble"
+    //   );
+  };
   return (
-    <div className='h-screen shadow-md w-full'>
-      <div className='w-[80%] mx-auto items-center shadow-lg border-gray-400 h-fit p-10 flex'>
-        <div className='py-20 px-12 space-y-6'>
-          <div className='flex justify-between border-b-[1.5px] pb-1'>
-            <p className="text-[#00ADB5] text-2xl font-bold">Explore</p>
-            <p className="text-[#393E46]"> Upload Ur tracks</p>
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor="">Title</label>
-            <input type="text" name="" id="" className='border-2 rounded-xl' />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor="">Description</label>
-            <textarea name="" id="" className='border-2 rounded-xl h-[120px]'></textarea>
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor="">Image</label>
-            <input type="file" name="" id="" className='' />
-          </div>
-          <div className='flex flex-col'>
-            <label htmlFor="">Audio</label>
-            <input type="file" name="" id="" className='' />
-          </div>
-          <button className='bg-[#00ADB5] text-white hover:shadow-2xl hover:scale-75 duration-200 items-center px-2 py-1 rounded-md'>
+    <div className="bg-[#1e1e1f] font-font-slide overflow-y-scroll h-full">
+      <div className="px-[40px] pt-[32px] pb-[8px]">
+        <p className="text-3xl font-font-slide text-white font-bold border-b-[0.01px] pb-[10px] border-white border-opacity-25">
+          Upload
+        </p>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        className="px-[20px] py-[20px] my-[20px] text-white
+          border-white border-opacity-50 rounded-md
+         space-y-10 border-[1px] w-fit mx-auto"
+      >
+        <div className="flex space-x-10">
+          <label
+            htmlFor="name"
+            className="font-font-slide text-base font-bold w-[150px]"
+          >
+            Song Name:
+          </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter your song name"
+            className="outline-none border-b-[1px] bg-transparent"
+            onChange={(e) => {
+              setName(e.currentTarget.value), setSuccess("");
+            }}
+          />
+        </div>
+        <div className="flex space-x-10">
+          <label
+            htmlFor="descript"
+            className="font-font-slide text-base font-bold w-[150px]"
+          >
+            Description Song:
+          </label>
+          <textarea
+            name="descript"
+            id="descript"
+            placeholder="Enter your description"
+            className="outline-none border-b-[1px] bg-transparent"
+            onChange={(e) => {
+              setDescription(e.currentTarget.value);
+            }}
+          />
+        </div>
+        <div className="flex space-x-10">
+          <label
+            htmlFor="image"
+            className="font-font-slide text-base font-bold w-[150px]"
+          >
+            Image:
+          </label>
+          <input
+            type="file"
+            name="file"
+            id="imge"
+            className="w-[250px]"
+            onChange={(e) => {
+              if (e.currentTarget.files) {
+                setImage(URL.createObjectURL(e.currentTarget.files[0]));
+              }
+            }}
+          />
+        </div>
+        <div className="h-[100px] w-fit border-dashed border-2 p-2 border-white">
+          {image ? (
+            <img src={image} alt="aa" className="h-full" />
+          ) : (
+            "No image selected"
+          )}
+        </div>
+        <div className="flex space-x-10">
+          <label
+            htmlFor="mp3"
+            className="font-font-slide text-base font-bold w-[150px]"
+          >
+            Audio:
+          </label>
+          <input type="file" name="mp3" id="mp3" className="w-[250px]" />
+        </div>
+        <div className="flex">
+          <button className="bg-[#00ADB5] text-white hover:shadow-2xl hover:scale-75 duration-200 items-center px-2 py-1 rounded-md">
             submit
           </button>
+
+          {loading ? (
+            <div className="w-fit mx-auto">
+              <ClipLoader size={10} color="#36d7b7" loading={loading} />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
-        <div className='border-l-[1px] h-full p-10 space-y-5'>
-          <p className="text-[#00ADB5] text-2xl font-bold">Music Policy</p>
-          <p className='w-[85%] text-xs text-[#393E46] text-opacity-80 '>
-            If you have a YouTube Music account, you may be provided with server space where you will be able to upload and store certain content from your computer (for example music files that may contain metadata and album art) (“Stored Music Content”). If you choose to upload Stored Music Content, you will retain all of your existing rights to the Stored Music Content and a copy will be stored on your behalf.
-          </p>
-          <p className="text-[#00ADB5] text-xs">Please contact us if you are not sure about the policy</p>
-          <div className='flex text-[#acb5c8] space-x-5 text-sm items-center'>
-            <p>
-              Through Social:
-            </p>
-            <a href="https://vi-vn.facebook.com/"
-              className='hover:text-[#fb649c] hover:shadow-2xl'>
-              <IoLogoFacebook />
-            </a>
-            <a href="https://github.com/"
-              className='hover:text-[#fb649c] hover:shadow-2xl'>
-              <BsGithub></BsGithub>
-            </a>
-            <a href="https://twitter.com/?lang=vi"
-              className='hover:text-[#fb649c] hover:shadow-2xl'>
-              <AiFillTwitterCircle />
-            </a>
+        {errorLogin ? (
+          <div className="items-center">
+            <p className="w-fit mx-auto pb-3 text-red-600">{errorLogin}</p>
           </div>
-          <div className='flex text-[#acb5c8] space-x-5 text-sm items-center'>
-            <p>
-              Through Email: Quocanh123@gmail.com
-            </p>
+        ) : (
+          ""
+        )}
+        {success ? (
+          <div className="items-center">
+            <p className="w-fit mx-auto pb-3 text-green-600">{success}</p>
           </div>
-          <p className='text-[#acb5c8] text-xs'>
-            Legal ⁃ Privacy ⁃ Cookie Policy ⁃ Consent Manager ⁃ Imprint ⁃ Artist Resources ⁃ Blog ⁃ Charts ⁃
-          </p>
-        </div>
-      </div>
+        ) : (
+          ""
+        )}
+      </form>
     </div>
-  )
+  );
 }
 
-export default index
+export default index;

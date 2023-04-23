@@ -3,16 +3,18 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Link from "next/link";
-import StartUi from "./StartUi/StartUi";
+import StartUi from "../StartUi/StartUi";
 import SLideMenu from "@/components/elements/Form/SLideMenu";
 import BarUser from "@/components/elements/Form/BarUser";
-import Layout from "./layout/layout";
+import Layout from "../layout/layout";
 import { getSession } from "next-auth/react";
 import { NextPageContext } from "next";
-import Profile from "./Profile";
+import Profile from "../Profile";
 import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
+
+
 
 export default function Home({
   // Layouts must accept a children prop.
@@ -23,14 +25,8 @@ export default function Home({
 }) {
   useEffect(() => {
     console.log("asdsd");
-  });
+  })
   return (
-    <div>
-      {/* <SLideMenu />
-      <Layout>
-        <Link href={"/Home"}>Home</Link>
-      </Layout>
-      <BarUser></BarUser> */}
-    </div>
+    <p>index</p>
   );
 }

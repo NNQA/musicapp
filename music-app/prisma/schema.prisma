@@ -61,6 +61,7 @@ model Song {
   description String?
   authorId    String   @db.ObjectId
   image       String?
+  audio       String?
   date        DateTime
   author      User     @relation(fields: [authorId], references: [id])
 }

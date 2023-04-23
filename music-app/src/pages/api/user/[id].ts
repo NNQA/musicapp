@@ -10,11 +10,7 @@ import { IncomingForm } from "formidable";
 import { NextResponse } from "next/server";
 import { emit } from "process";
 
-cloudinary.v2.config({
-  cloud_name: "dgmss9oy4",
-  api_key: "471463573585662",
-  api_secret: "m8A6vv5mTqg7bBW-uY-E0S3gYy0",
-});
+
 export const config = {
   api: {
     bodyParser: true,

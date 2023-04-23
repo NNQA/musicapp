@@ -33,13 +33,13 @@ function SLideMenu({ pages, setPages }: any) {
     signOut();
   };
   return (
-    <div className="w-[260px] border-r-[1px] h-screen bg-[#2c2c2e] text-white cursor-pointer">
+    <div className="w-[260px] border-r-[0.1px] border-white border-opacity-25 h-screen bg-[#2c2c2e] text-white cursor-pointer">
       <div className="pb-3 w-[200px] px-[30px] pt-[20px] flex items-center space-x-2">
         <FcMusic></FcMusic>
         <p className="text-xl font-font-slide">Music Social</p>
       </div>
       <div className="px-[30px] h-[65px] mt-[12px]">
-        <div className="w-fit items-center border-2 flex p-1 rounded-xl">
+        <div className="w-fit items-center border-[0.1px] border-white border-opacity-25 flex p-1 rounded-xl">
           <svg height="12" width="14" viewBox="0 0 16 16" aria-hidden="true">
             <path
               fill="#FFFFFF"
@@ -91,7 +91,7 @@ function SLideMenu({ pages, setPages }: any) {
         </ul>
       </div>
       <div className="mt-6">
-        <hr className="border-[1.5px]" />
+        <hr className="border-[0.1px] border-white border-opacity-25" />
       </div>
       <div
         className="flex px-[30px] items-center my-4 space-x-1"

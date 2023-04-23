@@ -80,6 +80,7 @@ export default NextAuth({
         },
       },
       async authorize(credentials, req) {
+        console.log("asdasd");
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password required");
         }
@@ -105,16 +106,12 @@ export default NextAuth({
         return user;
       },
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
-    }),
   ],
   pages: {
     signIn: "/login",
   },
 
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === "production",
   session: {
     strategy: "jwt",
     maxAge: 7 * 24 * 60 * 60,

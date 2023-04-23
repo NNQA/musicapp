@@ -29,14 +29,14 @@ function Modaledit({ actionModal, setActionModal }: any) {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState();
   const [checker, setCheckError] = useState();
-  
+
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [uploadFile, setUploadFile] = useState("");
   const [cloudinaryImage, setCloudinaryImage] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [session, setSession] = useState<Session | null>(null);
 
-  const {data: userI} = userCurrent();
+  const { data: userI } = userCurrent();
   useEffect(() => {
     async function fetchData() {
       const session = await getSession();
@@ -53,14 +53,13 @@ function Modaledit({ actionModal, setActionModal }: any) {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    e.preventDefault();
     const form = e.currentTarget;
     const fileInput = Array.from(form.elements).find(
       ({ name }: any) => name === "file"
     ) as HTMLInputElement;
     const formData = new FormData();
     console.log(fileInput.files);
-    const files = fileInput.files ? Array.from(fileInput.files as File[]) : [];
+    const files = fileInput.files ? Array.from(fileInput.files as unknown as File[]) : [];
     console.log(files);
     for (const file of files) {
       formData.append("file", file);
@@ -73,13 +72,15 @@ function Modaledit({ actionModal, setActionModal }: any) {
         body: formData,
       }
     ).then((r) => r.json());
-    setCloudinaryImage(data.secure_url)
+    setCloudinaryImage(data.secure_url);
     console.log(data.secure_url);
-    const id: string = userI.id
+    const id: string = userI.id;
     const tempVariant: AxiosResponse = await axios.put(`/api/user/[id]`, {
-      id, user, cloudinaryImage,
+      id,
+      user,
+      cloudinaryImage,
     });
-    console.log(tempVariant); 
+    console.log(tempVariant);
   };
   const toggle = () => {
     setModal(!modal);
@@ -97,7 +98,7 @@ function Modaledit({ actionModal, setActionModal }: any) {
       </button>
       {modal ? (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black">
-          <div className="w-[30%] h-2/3 mt-24 m-auto bg-gray-500 text-white">
+          <div className="w-[30%] h-2/3 mt-24 m-auto bg-[#1e1e1f] text-white">
             <div className="flex justify-between p-5 border-b-2">
               <h3>Edit your profile</h3>
               <button
@@ -111,6 +112,25 @@ function Modaledit({ actionModal, setActionModal }: any) {
             </div>
             <div className="py-1 w-fit mx-auto">
               <form className="flex flex-col space-y-1" onSubmit={handleSubmit}>
+                <div className="m-5 space-y-3 overflow-x-auto w-[250px]">
+                  <div>
+                    {cloudinaryImage ? 
+                      <div>
+                        <img src={cloudinaryImage} alt="ImageUser" />
+                      </div>
+                     : ''}
+                    <label htmlFor="file" className="block">
+                      Image
+                    </label>
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      className="block "
+                      onChange={handleFileInputChange}
+                    />
+                  </div>
+                </div>
                 <div className="w-1/2 m-5">
                   <label htmlFor="name" className="block pb-2">
                     UserName
@@ -123,18 +143,6 @@ function Modaledit({ actionModal, setActionModal }: any) {
                     onChange={(ev: any) => {
                       setUser(ev.target.value);
                     }}
-                  />
-                </div>
-                <div className="m-5 space-y-3">
-                  <label htmlFor="file" className="block">
-                    Image
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    name="file"
-                    className="block"
-                    onChange={handleFileInputChange}
                   />
                 </div>
                 <div className="m-5 pt-12 w-2/3">

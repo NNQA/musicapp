@@ -9,6 +9,7 @@ module.exports = {
     appDir: true,
     typedRoutes: true,
   },
+  disableExperimentalFeaturesWarning: true,
   reactStrictMode: true,
   images: {
     domains: ['res.cloudinary.com'],

@@ -12,15 +12,6 @@ export const dataSong = [
 
 export const dataMore = [
     {
-        state : "Insights"
-    },
-    {
-        state : "Share"
-    },
-    {
-        state : "Station"
-    },
-    {
         state : "Delete"
     },
 

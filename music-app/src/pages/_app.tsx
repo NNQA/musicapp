@@ -7,10 +7,32 @@ import SLideMenu from "@/components/elements/Form/SLideMenu";
 import BarUser from "@/components/elements/Form/BarUser";
 import Layout from "./layout/layout";
 import Home from "./Home";
+import { getSession, useSession } from "next-auth/react";
+import { NextPageContext } from "next";
+import { useEffect } from "react";
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      }
+    }
+  }
+  return {
+    props: {}
+  }
+}
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
+  useEffect(() => {
+    console.log("asdsd");
+  })
   return (
     <SessionProvider session={session}>
       <Provider store={store}>

@@ -66,13 +66,15 @@ export default function Component() {
     setErrorLogin("");
     if (variant === "login") {
       try {
+        console.log(1)
         const a = await signIn("credentials", {
           email,
           password,
           redirect: false,
           callbackUrl: "/Profile",
         });
-
+        console.log(1)
+        
         setLoading(false);
         if (a?.error) {
           e.preventDefault();
@@ -82,7 +84,7 @@ export default function Component() {
         }
       } catch (error: any) {
         setErrorLogin(error.message);
-        console.log(error);
+        console.log('wtf', error);
       }
     } else {
       try {
@@ -102,34 +104,6 @@ export default function Component() {
       }
     }
   };
-  const handlingLogin = useCallback(async () => {
-    try {
-      await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-        callbackUrl: "/user",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, [email, password, router]);
-  const handleSignInGG = () => {
-    signIn("google", { callbackUrl: "/Home" });
-  };
-
-  const handleRegister = useCallback(async () => {
-    try {
-      await axios.post("/api/register", {
-        email,
-        user,
-        password,
-        cfpassword,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, [email, user, password, cfpassword]);
 
   return (
     <div className="cursor-pointer overflow-y-auto h-full bg-[#1e1e1f] px-[100px]  ">
@@ -282,7 +256,7 @@ export default function Component() {
                   className="bg-white rounded-lg bg-opacity-20 px-1 py-2 
                                 transition duration-300 hover:translate-x-2 hover:shadow-2xl 
                                 hover:-translate-y-2 flex items-center justify-center w-[86%]"
-                  onClick={handleSignInGG}
+                  // onClick={handleSignInGG}
                 >
                   <p>Log in with Google</p>
                   <FcGoogle className="pt-1 h-5 w-5" />
