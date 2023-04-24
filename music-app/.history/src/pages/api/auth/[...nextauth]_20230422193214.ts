@@ -125,7 +125,23 @@ export default NextAuth({
   //   },
   // }
   jwt: {
-   secret: process.env.NEXTAUTH_JWT_SECRET,
+    // async encode(params: JWTEncodeParams): Promise<string> {
+    //   if (params.token !== undefined) {
+    //     const encodedToken = jwt.sign(params?.token, params.secret);
+    //     return encodedToken;
+    //   }
+    //   throw new Error("Invalid token");
+    // },
+    // async decode(params: JWTDecodeParams): Promise<JwtPayload> {
+    //   if (params.token !== undefined) {
+    //     const decodedToken = jwt.verify(
+    //       params?.token,
+    //       params.secret
+    //     ) as JwtPayload;
+    //     return decodedToken;
+    //   }
+    //   throw new Error("Invalid token");
+    // },
   },
 
   secret: secret,
