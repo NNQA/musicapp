@@ -10,7 +10,6 @@ import {
   AiFillPauseCircle,
   AiOutlineHeart,
 } from "react-icons/ai";
-import audio from "../../../public/aa.mp3";
 import { CgMore } from "react-icons/cg";
 import mtp from "../../static/mtp.jpg";
 import mck from "../../static/mck.jpg";
@@ -23,6 +22,9 @@ import MediaPlayer from "@/components/elements/Form/MediaPlayerProfile";
 import { data } from "@/components/elements/Form/data";
 import Modaledit from "@/components/elements/Form/Modaledit";
 import Router from "next/router";
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from 'next/router';
 
 {
   /* <div className="w-full">
@@ -40,24 +42,30 @@ export async function getServerSideProps(context: NextPageContext) {
       },
     };
   }
-  // if (!session) {
-  //   return {
-  //     redirect: {
-  //       destination: "/login",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
   return {
     props: {},
   };
 }
+type Song = {
+  id: string;
+  title: string;
+  description?: string;
+  authorId: string;
+  image?: string;
+  audio?: string;
+  date: string; // you may need to update the date format to match what the server sends
+  author: {
+    id: string;
+    // add any other properties as needed
+  };
+};
 function index() {
   const { data: user } = userCurrent();
   const [action, setAction] = useState(false);
   const [actionModal, setActionModal] = useState(true);
   const mediaRef = useRef(null);
   const [showcase, setShowcase] = useState(-1);
+  const [songs, setSongs] = useState([]);
   const handleShowcase = (idx: number) => {
     if (showcase == idx) {
       setShowcase(-1);
@@ -65,6 +73,27 @@ function index() {
       setShowcase(idx);
     }
   };
+  useEffect(() => {
+    if (user) {
+      const id: string = user?.id;
+      console.log(id);
+
+      axios
+        .post("/api/findsong/find", {
+          id,
+        })
+        .then((songs) => {
+          console.log(songs.data);
+          setSongs(songs.data);
+        }).catch(e => {
+          console.log(e);
+        });
+    }
+  }, [user]);
+  function formatDateString(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  }
 
   return (
     <div className="bg-[#1e1e1f] font-font-slide overflow-y-scroll">
@@ -125,23 +154,29 @@ function index() {
                 #title
               </p> */}
             {/* <hr className="mb-[30px]"/> */}
-            {dataSong.map((item, idx) => (
-              <li className="flex items-center text-white space-x-10 space-y-1 pr-4
-                hover:bg-white hover:bg-opacity-5 hover:rounded-lg px-2 pb-2" key={idx}>
-                <p>
-                  {idx}
-                </p>
+            {songs.map((item: Song, idx) => (
+              <li
+                className="flex items-center text-white space-x-10 space-y-1 pr-4
+                hover:bg-white hover:bg-opacity-5 hover:rounded-lg px-2 pb-2"
+                key={idx}
+              >
+                <p>{idx}</p>
                 <div>
                   <img
-                    src={item.img}
+                    src={item.image}
                     alt="Image Item"
                     className="aspect-square w-[60px] object-cover my-1"
                   ></img>
                 </div>
 
                 <div className="w-full ml-4 text-white flex justify-between">
-                  <div className="text-base font-bold">
-                    <p>{item.title}</p>
+                  <div className="text-base font-bold w-2/3">
+                    <Link href={`/Profile/song/${item.title}`}>{item.title}</Link>
+                  </div>
+                  <div className="w-fit mr-[36px]">
+                    <p>
+                      {formatDateString(item.date)}
+                    </p>
                   </div>
                   <div className="flex space-x-16">
                     <div className="w-fit flex border-2 items-center px-2 space-x-4 rounded-md">
@@ -246,10 +281,6 @@ function index() {
                 <TiTick className="text-white"></TiTick>
               </div>
             </div>
-            <button
-            onClick={() => Router.push(`/Profile/song/[${"asd"}]`)}>
-                asdasdad
-            </button>
           </div>
         </div>
       ) : (
