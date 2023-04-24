@@ -168,7 +168,7 @@ export default function Component() {
                   ""
                 ) : (
                   <span className="text-[#d83a6f] text-[10px] ml-2 tracking-wide">
-                    It is not valid email address
+                    It not valid email address
                   </span>
                 )}
                 <hr />

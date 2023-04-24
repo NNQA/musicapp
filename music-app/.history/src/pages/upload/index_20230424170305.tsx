@@ -6,7 +6,7 @@ import { Session } from "next-auth";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 
-function Upload() {
+function index() {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [descript, setDescription] = useState("");
@@ -194,4 +194,4 @@ function Upload() {
   );
 }
 
-export default Upload;
+export default index;

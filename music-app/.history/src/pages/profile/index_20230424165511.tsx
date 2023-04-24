@@ -59,7 +59,7 @@ type Song = {
     // add any other properties as needed
   };
 };
-function Profile() {
+function index() {
   const { data: user } = userCurrent();
   const [action, setAction] = useState(false);
   const [actionmodal, setActionmodal] = useState(true);
@@ -290,4 +290,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default index;

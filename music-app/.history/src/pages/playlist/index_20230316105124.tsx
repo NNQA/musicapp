@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Playlist() {
+function index() {
   return (
     <div>index</div>
   )
 }
 
-export default Playlist
+export default index
