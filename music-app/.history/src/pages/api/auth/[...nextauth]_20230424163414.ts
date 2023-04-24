@@ -10,6 +10,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT, JWTDecodeParams, JWTEncodeParams } from "next-auth/jwt";
 import { Jwt } from "jsonwebtoken";
 import { setCookie } from "nookies";
+import { generateJwt } from "./generateJwt";
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Adapter } from "next-auth/adapters";

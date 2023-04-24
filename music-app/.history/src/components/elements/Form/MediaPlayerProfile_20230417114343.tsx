@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { AiFillPlayCircle, AiFillPauseCircle, AiOutlineHeart } from "react-icons/ai"
-import { dataMore } from "@/lib/dataStaticSong"
+import { dataSong } from "@/lib/dataStaticSong"
 import { connect } from 'react-redux';
 import { Dispatch, SetStateAction } from 'react';
 interface Props {

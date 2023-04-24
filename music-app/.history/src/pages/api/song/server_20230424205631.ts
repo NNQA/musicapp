@@ -50,7 +50,7 @@ export default async function handler(
           }
 
           const imageUrlPromise = cloudinary.uploader
-            .upload((file.image as any).filepath)
+            .upload((file.image as any as PersistentFile).filepath)
             .then((v) => v.secure_url)
             .catch((e) => {
               console.log(e);

@@ -1,6 +1,7 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import Link from "next/link";
 import { useState } from "react";
+import StartUi from "./StartUi/StartUi";
 import SLideMenu from "@/components/elements/Form/SLideMenu";
 import BarUser from "@/components/elements/Form/BarUser";
 import Layout from "./layout/layout";
