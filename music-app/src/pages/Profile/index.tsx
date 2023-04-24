@@ -62,8 +62,8 @@ type Song = {
 function index() {
   const { data: user } = userCurrent();
   const [action, setAction] = useState(false);
-  const [actionModal, setActionModal] = useState(true);
-  const mediaRef = useRef(null);
+  const [actionmodal, setActionmodal] = useState(true);
+  // const mediaRef = useRef(null);
   const [showcase, setShowcase] = useState(-1);
   const [songs, setSongs] = useState([]);
   const handleShowcase = (idx: number) => {
@@ -125,8 +125,8 @@ function index() {
             </p>
             <p className="text-xl opacity-70 font-bold">Email:{user?.email} </p>
             <Modaledit
-              actionModal={actionModal}
-              setActionModal={setActionModal}
+              actionModal={actionmodal}
+              setActionModal={setActionmodal}
             ></Modaledit>
           </div>
         </div>
@@ -147,7 +147,7 @@ function index() {
           </div>
         </div>
       </div>
-      {actionModal ? (
+      {actionmodal ? (
         <div className="px-[40px] cursor-pointer w-fit textt-white pt-[64px] mb-[12px] flex">
           <ul className="w-[750px]">
             {/* <p className="text-xl font-font-slide text-white font-bold mb-[8px]">

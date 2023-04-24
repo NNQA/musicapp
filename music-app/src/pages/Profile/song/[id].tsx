@@ -15,14 +15,14 @@ import axios from "axios";
 import { Song } from "@/lib/utilts/model";
 function index() {
   const { data: user } = userCurrent();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isplaying, setIsplaying] = useState(false);
   const [songs, setSongs] = useState<Song>();
 
   const handlePlaying = () => {
     togglePlay();
   };
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    setIsplaying(!isplaying);
   };
   function formatDateString(dateString: string): string {
     const date = new Date(dateString);
@@ -76,7 +76,7 @@ function index() {
 
       <div className="px-[40px] pt-[32px] pb-[8px] flex items-center space-x-12">
         <div onClick={() => handlePlaying()}>
-          {!isPlaying ? (
+          {!isplaying ? (
             <AiFillPlayCircle className="w-[50px] h-[50px]"></AiFillPlayCircle>
           ) : (
             <AiFillPauseCircle className="w-[50px] h-[50px]"></AiFillPauseCircle>

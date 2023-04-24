@@ -16,12 +16,12 @@ function index() {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [descript, setDescription] = useState("");
-  const [imgCl, setImgCl] = useState("");
+  const [imgcl, setImgcl] = useState("");
   const [audioCl, setAudioCl] = useState("");
   const { data: userI } = userCurrent();
   const [loading, setLoading] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
-  const [errorLogin, setErrorLogin] = useState("");
+  const [errorlogin, setErrorlogin] = useState("");
   const [success, setSuccess] = useState("");
   let option = "getone";
   useEffect(() => {
@@ -64,18 +64,18 @@ function index() {
         formData
       );
       setLoading(false);
-      setErrorLogin("");
+      setErrorlogin("");
       setSuccess("Successfully");
-      setImgCl("");
+      setImgcl("");
       setAudioCl("");
       setImage("");
       setDescription("");
     } catch (error: any) {
-      setErrorLogin(error.response.data.message);
+      setErrorlogin(error.response.data.message);
       setLoading(false);
       console.log(error.response.data.message);
     }
-    setImgCl("");
+    setImgcl("");
     setAudioCl("");
     setImage("");
     setDescription("");
@@ -181,9 +181,9 @@ function index() {
             ""
           )}
         </div>
-        {errorLogin ? (
+        {errorlogin ? (
           <div className="items-center">
-            <p className="w-fit mx-auto pb-3 text-red-600">{errorLogin}</p>
+            <p className="w-fit mx-auto pb-3 text-red-600">{errorlogin}</p>
           </div>
         ) : (
           ""

@@ -11,13 +11,13 @@ import { IoMdCodeDownload } from "react-icons/io";
 import { FiMoreHorizontal } from "react-icons/fi";
 
 function index() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isplaying, setIsplaying] = useState(false);
 
   const handlePlaying = () => {
     togglePlay();
   };
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    setIsplaying(!isplaying);
   };
 
   return (
@@ -47,7 +47,7 @@ function index() {
 
       <div className="px-[40px] pt-[32px] pb-[8px] flex items-center space-x-12">
         <div onClick={() => handlePlaying()}>
-          {!isPlaying ? (
+          {!isplaying ? (
             <AiFillPlayCircle className="w-[50px] h-[50px]"></AiFillPlayCircle>
           ) : (
             <AiFillPauseCircle className="w-[50px] h-[50px]"></AiFillPauseCircle>
