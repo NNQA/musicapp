@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { IoLogoFacebook } from "react-icons/io";
-import { BsGithub } from "react-icons/bs";
-import { AiFillTwitterCircle } from "react-icons/ai";
-import { message, Upload } from "antd";
+
 import userCurrent from "@/hook/currentuser";
 import { getSession } from "next-auth/react";
 import { Session } from "next-auth";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
-import { ToastContainer, toast } from "react-toastify";
-import { findSongExist } from "../api/song/server";
-import { prisma } from "@/server/prisma";
 
 function index() {
   const [image, setImage] = useState("");

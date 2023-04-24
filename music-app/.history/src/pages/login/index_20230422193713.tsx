@@ -30,7 +30,7 @@ export async function getServerSideProps(context: NextPageContext) {
     if (session !== null) {
       return {
         redirect: {
-          destination: '/profile',
+          destination: '/Profile',
           permanent: false,
         }
       }
