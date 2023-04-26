@@ -8,7 +8,7 @@ import BarUser from "@/components/elements/Form/BarUser";
 import Layout from "./layout/layout";
 import { getSession } from "next-auth/react";
 import { NextPageContext } from "next";
-import Profile from "./profile";
+import Profile from "./Profile";
 import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
