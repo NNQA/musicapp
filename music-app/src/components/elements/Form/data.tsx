@@ -8,10 +8,10 @@ import {MdMore} from "react-icons/md"
 
 
 export const data = [
-    {name: "home", icon:AiOutlineHome},
-    {name: "upload", icon:AiOutlineUpload},
-    {name: "playlist", icon:SlPlaylist},
-    {name: "profile", icon:CgProfile},
+    {name: "Home", icon:AiOutlineHome},
+    {name: "Upload", icon:AiOutlineUpload},
+    {name: "Playlist", icon:SlPlaylist},
+    {name: "Profile", icon:CgProfile},
 ]
 
 
