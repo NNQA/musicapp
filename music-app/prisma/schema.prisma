@@ -17,6 +17,7 @@ model User {
   sessions       Session[]
   accounts       Account[]
   song           Song[]
+  likes Like[]
   
 }
 
@@ -63,11 +64,17 @@ model Song {
   image       String?
   audio       String?
   date        DateTime
+  likes Like[]
   author      User     @relation(fields: [authorId], references: [id])
 }
 
 model Like {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  songId String @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id])
+  song Song @relation(fields: [songId], references: [id])
 }
 
 
