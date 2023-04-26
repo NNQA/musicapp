@@ -5,9 +5,24 @@ export interface Song {
   authorId: string;
   image?: string;
   audio?: string;
-  date: string; // you may need to update the date format to match what the server sends
-  author: {
-    id: string;
-    // add any other properties as needed
-  };
+  date: string;
+  likes: Like[];
+  author: User;
+}
+
+export interface Like {
+  id: string;
+  userId: string;
+  songId: string;
+  user: User;
+  song: Song;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  image?: string;
+  email?: string;
+  hashedPassword?: string;
+  songs: Song[];
 }
