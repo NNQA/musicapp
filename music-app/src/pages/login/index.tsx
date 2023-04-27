@@ -1,28 +1,17 @@
 import {
-  useSession,
   signIn,
-  signOut,
-  getProviders,
-  ClientSafeProvider,
   getSession,
 } from "next-auth/react";
 import { AiOutlineLock } from "react-icons/ai";
 import { HiOutlineMail } from "react-icons/hi";
 import { FcGoogle } from "react-icons/fc";
 import { FiUser } from "react-icons/fi";
-import Image from "next/image";
-import headphone from "../../static/headphone.jpg";
 import Input from "../../components/elements/Form/Input";
 import { FormEventHandler, useCallback, useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
-import { pathToFileURL } from "url";
 import { NextPageContext } from "next";
-import { eps } from "@cloudinary/url-gen/qualifiers/format";
 import ClipLoader from "react-spinners/ClipLoader";
-import { FadeLoader } from "react-spinners";
-import { ToastContainer, toast } from "react-toastify";
-import PerfectScrollbar from "react-perfect-scrollbar";
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);

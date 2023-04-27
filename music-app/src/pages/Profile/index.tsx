@@ -204,7 +204,7 @@ function Profile() {
                   </div>
                   <div className="w-fit mr-[36px]">
                     <p>
-                      {formatDateString(item.date)}
+                      {formatDateString(item.date as any)}
                     </p>
                   </div>
                   <div className="flex space-x-16">
