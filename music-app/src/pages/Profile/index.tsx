@@ -1,13 +1,10 @@
-import React, { ReactFragment, useEffect, useRef, useState } from "react";
+import React, {useEffect,useState } from "react";
 import { getSession } from "next-auth/react";
-import { Session } from "next-auth";
 import { NextPageContext } from "next";
 import Userimg from "../../static/user.png";
 import Image from "next/image";
 import userCurrent from "@/hook/currentuser";
 import {
-  AiFillPlayCircle,
-  AiFillPauseCircle,
   AiOutlineHeart,
   AiFillHeart,
 } from "react-icons/ai";
@@ -18,16 +15,10 @@ import wean from "../../static/wean.png";
 import { TiTick } from "react-icons/ti";
 import { HiUsers } from "react-icons/hi";
 import {  dataMore } from "@/lib/dataStaticSong";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import MediaPlayer from "@/components/elements/Form/MediaPlayerProfile";
-import { data } from "@/components/elements/Form/data";
 import Modaledit from "@/components/elements/Form/Modaledit";
-import Router from "next/router";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from 'next/router';
 import { Like, Song } from "@/lib/utilts/model";
-import checklike from "../api/isLiked";
 
 
 

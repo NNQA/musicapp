@@ -3,9 +3,24 @@ import React, { useEffect, useState } from "react";
 import userCurrent from "@/hook/currentuser";
 import { getSession } from "next-auth/react";
 import { Session } from "next-auth";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import { NextPageContext } from "next";
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+  console.log(session);
+  if (session === null) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}
 function Upload() {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
@@ -17,7 +32,6 @@ function Upload() {
   const [session, setSession] = useState<Session | null>(null);
   const [errorlogin, setErrorlogin] = useState("");
   const [success, setSuccess] = useState("");
-  let option = "getone";
   useEffect(() => {
     getSession({}).then((session) => {
       if (session !== null) {
@@ -73,11 +87,6 @@ function Upload() {
     setAudioCl("");
     setImage("");
     setDescription("");
-    // } else {
-    //   setLoading(false);
-    //   setErrorLogin(
-    //     "Bad Request your fileAudio and your File Image have trouble"
-    //   );
   };
   return (
     <div className="bg-[#1e1e1f] font-font-slide overflow-y-scroll h-full">
