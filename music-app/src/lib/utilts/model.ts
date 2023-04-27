@@ -1,3 +1,14 @@
+export interface User {
+  id: string;
+  name: string;
+  image?: string;
+  email?: string;
+  hashedPassword?: string;
+  songs: Song[];
+  likes: Like[];
+  comments: Comment[];
+}
+
 export interface Song {
   id: string;
   title: string;
@@ -5,9 +16,19 @@ export interface Song {
   authorId: string;
   image?: string;
   audio?: string;
-  date: string;
+  date: Date;
   likes: Like[];
+  comments: Comment[];
   author: User;
+}
+
+export interface Comment {
+  id: string;
+  userId: string;
+  songId: string;
+  text?: string;
+  user: User;
+  song: Song;
 }
 
 export interface Like {
@@ -16,13 +37,4 @@ export interface Like {
   songId: string;
   user: User;
   song: Song;
-}
-
-export interface User {
-  id: string;
-  name: string;
-  image?: string;
-  email?: string;
-  hashedPassword?: string;
-  songs: Song[];
 }
