@@ -1,11 +1,10 @@
-import React, { use } from "react";
+import React from "react";
 import Userimg from "../../../static/user.png";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import {
   AiFillPlayCircle,
   AiFillPauseCircle,
-  AiOutlineHeart,
   AiOutlineSend,
 } from "react-icons/ai";
 import { HiBackspace } from "react-icons/hi2";
@@ -24,7 +23,6 @@ function Song() {
   const [songs, setSongs] = useState<Song>();
   const [cmt, setCmt] = useState<Comment[]>([]);
   const [textcmt, setTextcmt] = useState("");
-  const [cmted, setCmted] = useState<string[]>([]);
   const [actioncmt, setActioncmt] = useState(false);
   const [actionDl, setActionDl] = useState(-1);
 
@@ -124,7 +122,7 @@ function Song() {
           <h1 className="text-5xl font-bold">{songs?.title as string}</h1>
           <div className="flex space-x-28">
             <p>Datetime: {formatDateString(songs?.date as any)}</p>
-            <p>Like:</p>
+            <p>Decripstion: {songs?.description}</p>
           </div>
         </div>
       </div>

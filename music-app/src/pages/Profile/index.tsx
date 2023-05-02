@@ -20,20 +20,13 @@ import axios from "axios";
 import Link from "next/link";
 import { Like, Song } from "@/lib/utilts/model";
 
-
-
-{
-  /* <div className="w-full">
-                      <MediaPlayer src={item.audio} index={idx} />
-                      <audio ref={mediaRef} /> */
-}
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
   console.log(session);
   if (session === null) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/Sorry",
         permanent: false,
       },
     };
@@ -46,7 +39,6 @@ function Profile() {
   const { data: user } = userCurrent();
   const [action, setAction] = useState(false);
   const [actionmodal, setActionmodal] = useState(true);
-  // const mediaRef = useRef(null);
   const [showcase, setShowcase] = useState(-1);
   const [songs, setSongs] = useState([]);
   const [isliked, setIsliked] = useState([]);
