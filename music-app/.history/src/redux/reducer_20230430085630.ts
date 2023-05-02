@@ -1,0 +1,24 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  playing: false,
+};
+
+const audioPlayerSlice = createSlice({
+  name: 'audioPlayer',
+  initialState,
+  reducers: {
+    
+    setPlaying: (state, action) => {
+      state.playing = action.payload;
+    },
+    resetState: (state) => {
+      state.audio = null;
+      state.playing = false;
+      state.volume = 1;
+    },
+  },
+});
+
+export const { setPlaying, resetState } = audioPlayerSlice.actions;
+export default audioPlayerSlice.reducer;

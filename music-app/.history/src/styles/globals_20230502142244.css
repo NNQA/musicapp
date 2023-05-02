@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+
+::-moz-progress-bar {
+    background-color: gray;
+}
+
+::-moz-range-progress {
+    background-color: gray;
+}
+
+
+input::-moz-range-thumb {
+    /* width: 10px; 
+    height: 10px; 
+    background: #b3b3b3 ; 
+    cursor: pointer;  */
+    opacity:0;
+}
