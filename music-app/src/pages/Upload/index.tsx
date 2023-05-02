@@ -12,16 +12,18 @@ export async function getServerSideProps(context: NextPageContext) {
   if (session === null) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/Sorry",
         permanent: false,
       },
     };
   }
   return {
-    props: {},
+    props: {
+      data: {},
+    },
   };
 }
-function Upload() {
+function Upload({ data }: any) {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [descript, setDescription] = useState("");
@@ -65,7 +67,9 @@ function Upload() {
       formData.append("audio", audio);
     }
     const id: string = userI.id;
+    const email: string = userI.email
     formData.append("id", id);
+    formData.append("email", email);
     try {
       const tempVariant: AxiosResponse = await axios.post(
         "/api/song/server",
