@@ -29,7 +29,7 @@ export default async function handler(
           console.log(field);
           console.log(file);
           // console.log(file.name)
-          console.log(field.name)
+          console.log(field.name);
 
           console.log("adsad");
           if (typeof file.name as unknown as string) {
@@ -40,13 +40,18 @@ export default async function handler(
             });
             console.log(existSong);
             if (existSong) {
-              return res.status(401).json({message: "Song name existed"});
+              return res.status(401).json({ message: "Song name existed" });
             }
           }
           console.log(file.image);
-          if(!file.image || !file.audio) {
-            console.log("adsadad")
-            return res.status(400).json( {message: "Image File and audio file have trouble or dont have exist"});
+          if (!file.image || !file.audio) {
+            console.log("adsadad");
+            return res
+              .status(400)
+              .json({
+                message:
+                  "Image File and audio file have trouble or dont have exist",
+              });
           }
 
           const imageUrlPromise = cloudinary.uploader
@@ -76,10 +81,18 @@ export default async function handler(
             data: {
               title: field.name as string,
               description: field.descript as string,
-              authorId: field.id as string,
+              author: {
+                connect: {
+                  id: field?.uId as string,
+                  email: field.email as string,
+                },
+              },
               image: imageUrl,
               audio: audioUrl,
               date: new Date(),
+            },
+            include: {
+              author: true,
             },
           });
           return res.status(200).json(song);
@@ -92,9 +105,14 @@ export default async function handler(
 
     case "GET":
       try {
-        
+        const allSongs = await prisma.song.findMany({
+          include: {
+            author:true,
+          }
+        });
+        return res.status(200).json(allSongs);
       } catch (error: any) {
-        return res.status(400).json({message :error.message});
+        return res.status(400).json({ message: error.message });
       }
       break;
 
