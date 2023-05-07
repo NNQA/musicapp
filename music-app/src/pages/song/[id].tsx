@@ -1,5 +1,5 @@
 import React from "react";
-import Userimg from "../../../static/user.png";
+import Userimg from "../../static/user.png";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
@@ -11,15 +11,35 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { HiBackspace } from "react-icons/hi2";
 import { IoMdCodeDownload } from "react-icons/io";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import userCurrent from "@/hook/currentuser";
 import axios from "axios";
-import { Comment, Like, Playlist, Song } from "@/lib/utilts/model";
+import { Comment, Song } from "@/lib/utilts/model";
 import BounceLoader from "react-spinners/BounceLoader";
 import SyncLoader from "react-spinners/SyncLoader";
+import { getSession } from "next-auth/react";
+import { NextPageContext } from "next";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppeat, setCurrentSong, setPlaying } from "@/redux/reducer";
-import { toast } from "react-toastify";
+import { Playlist } from "@prisma/client";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+  console.log(session);
+  if (session === null) {
+    return {
+      redirect: {
+        destination: "/Sorry",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}
 
 function Song() {
   const { data: user } = userCurrent();
@@ -30,9 +50,9 @@ function Song() {
   const [actioncmt, setActioncmt] = useState(false);
   const [actionDl, setActionDl] = useState(-1);
   const [likes, setLikes] = useState(true);
-  const [playlist, setPlaylist] = useState<Playlist[]>([]);
   const [option, setOption] = useState(false);
   const [optonPlaylist, setOptionPlaylist] = useState(false);
+  const [playlist, setPlaylist] = useState<Playlist[]>([]);
   const { playing, currentSong, appear, songs } = useSelector(
     (state: any) => state.audioPlayer
   );
@@ -70,18 +90,33 @@ function Song() {
   const uId: string = user?.id;
   const sId: any = song?.id;
   useEffect(() => {
-    if (sId) {
+    if (sId && uId) {
       axios
-        .get(`/api/isCmt?sId=${sId}`)
+        .get(`/api/like/getLikedId?sId=${sId}&?uId=${uId}`)
         .then((data: any) => {
-          console.log("isliked");
-          setCmt(data.data), console.log(data.data);
+          if (data.data.message === "notLike") {
+            setLikes(false);
+          } else {
+            setLikes(true);
+          }
+          console.log(data.data.message);
         })
         .catch((e) => {
           console.log(e);
         });
     }
-  }, [sId]);
+  }, [sId, uId]);
+  const handShowplaylist = async () => {
+    axios
+      .get(`/api/playlist/server?id=${user.id}`)
+      .then((data) => {
+        console.log(data);
+        setPlaylist(data.data);
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+  };
   const Comment = async () => {
     setActioncmt(true);
     axios
@@ -118,29 +153,15 @@ function Song() {
       axios
         .get(`/api/like/getLikedId?sId=${sId}&?uId=${uId}`)
         .then((data: any) => {
-          if (data.data.message === "notLike") {
-            setLikes(false);
-          } else {
-            setLikes(true);
-          }
-          console.log(data.data.message);
+          setLikes(true);
+
+          console.log(data.data);
         })
         .catch((e) => {
           console.log(e);
         });
     }
   }, [sId, uId]);
-  const handShowplaylist = async () => {
-    axios
-      .get(`/api/playlist/server?id=${user.id}`)
-      .then((data) => {
-        console.log(data);
-        setPlaylist(data.data);
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
-  };
   const likeSong = async (ids: any, idu: any) => {
     axios
       .post("/api/isLiked", {
@@ -259,7 +280,7 @@ function Song() {
           )}
         </div>
         <div className="flex space-x-4 items-center">
-          <div>
+          <div className="cursor-pointer">
             {likes ? (
               <AiFillHeart
                 onClick={() => unlikeSong(sId, user?.id)}

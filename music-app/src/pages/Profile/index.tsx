@@ -1,24 +1,23 @@
-import React, {useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
 import { NextPageContext } from "next";
 import Userimg from "../../static/user.png";
 import Image from "next/image";
 import userCurrent from "@/hook/currentuser";
-import {
-  AiOutlineHeart,
-  AiFillHeart,
-} from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { CgMore } from "react-icons/cg";
-import mtp from "../../static/mtp.jpg";
-import mck from "../../static/mck.jpg";
-import wean from "../../static/wean.png";
-import { TiTick } from "react-icons/ti";
-import { HiUsers } from "react-icons/hi";
-import {  dataMore } from "@/lib/dataStaticSong";
-import Modaledit from "@/components/elements/Form/Modaledit";
+
+import { MdPause } from "react-icons/md";
+import { FaPlay } from "react-icons/fa";
+import { dataMore } from "@/lib/dataStaticSong";
+import Modaledit from "@/pages/Profile/modal/Modaledit";
 import axios from "axios";
 import Link from "next/link";
 import { Like, Song } from "@/lib/utilts/model";
+import { useDispatch, useSelector } from "react-redux";
+import { setAppeat, setCurrentSong, setPlaying } from "@/redux/reducer";
+import handlde from "../api/getCurrentUser";
+import { toast } from "react-toastify";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -44,8 +43,13 @@ function Profile() {
   const [isliked, setIsliked] = useState([]);
   const [likes, setLikes] = useState<Like[]>([]);
   const [likedSongs, setLikedSongs] = useState<string[]>([]);
+  const [isplaying, setIsplaying] = useState(-1);
+  const { playing, currentSong, appear } = useSelector(
+    (state: any) => state.audioPlayer
+  );
+  const dispatch = useDispatch();
   const handleShowcase = (idx: number) => {
-    if (showcase == idx) {
+    if (showcase === idx) {
       setShowcase(-1);
     } else {
       setShowcase(idx);
@@ -61,38 +65,53 @@ function Profile() {
           id,
         })
         .then((songs) => {
+          setAction(false);
           console.log(songs.data);
           setSongs(songs.data);
-        }).catch(e => {
+        })
+        .catch((e) => {
           console.log(e);
         });
     }
-  }, [user]);
+  }, [user, action]);
+  const handlePlaying = (idx: number, song: Song) => {
+    if (playing) {
+      if (isplaying === idx) {
+        setIsplaying(-1);
+      } else {
+        setIsplaying(idx);
+      }
+    }
+    handlePlayClick(song);
+  };
   useEffect(() => {
-    axios.get('/api/isLiked')
-    .then((data: any) => {
-      console.log("isliked")
-      setIsliked(data.data),
-      setLikes(data.data),
-      console.log(data.data)
-    }).catch(e => {
-      console.log(e);
-    })
+    axios
+      .get("/api/isLiked")
+      .then((data: any) => {
+        console.log("isliked");
+        setIsliked(data.data), setLikes(data.data), console.log(data.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
   useEffect(() => {
     setLikedSongs(likes.map((like) => like.songId));
   }, [likes]);
-  const likeSong = async(ids: any, idu: any) => {
-    axios.post('/api/isLiked',{
-      ids, idu
-    }).then(data => {
-      setLikes([...likes, data.data]);
-      console.log(data.data);
-    })
-    .catch(e => {
-      console.log(e)
-    })
-  }
+  const likeSong = async (ids: any, idu: any) => {
+    axios
+      .post("/api/isLiked", {
+        ids,
+        idu,
+      })
+      .then((data) => {
+        setLikes([...likes, data.data]);
+        console.log(data.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   const unlikeSong = async (ids: any, idu: any) => {
     const like = likes.find((like) => like.songId === ids);
     if (!like) return;
@@ -100,12 +119,61 @@ function Profile() {
     await axios.delete(`/api/isLiked?ids=${ids}&idu=${idu}`);
     setLikes(likes.filter((l) => l.id !== like.id));
   };
+  const DeleteSong = async (song: Song) => {
+    await axios
+      .delete(`/api/song/server?id=${song.id}`)
+      .then((r) => {
+        setAction(true);
+        toast.success("Deleted successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      })
+      .catch((r) => {
+        toast.error("Somethings is error, please try again", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
 
   function formatDateString(dateString: string) {
     const date = new Date(dateString);
     return date.toLocaleDateString();
   }
-
+  const handlePlayClick = (song: any) => {
+    if (currentSong === null) {
+      dispatch(setCurrentSong(song));
+      dispatch(setPlaying(true));
+      dispatch(setAppeat(true));
+    } else if (song !== currentSong) {
+      if (playing) {
+        dispatch(setPlaying(false));
+        dispatch(setCurrentSong(song));
+      } else {
+        dispatch(setCurrentSong(song));
+      }
+      dispatch(setPlaying(true));
+    } else {
+      if (playing) {
+        dispatch(setPlaying(false));
+      } else {
+        dispatch(setPlaying(true));
+      }
+    }
+  };
 
   return (
     <div className="bg-[#1e1e1f] font-font-slide overflow-y-scroll h-full">
@@ -146,7 +214,7 @@ function Profile() {
       <div className="mt-8 px-[40px] pt-[32px] text-white  ">
         <div className="flex justify-between items-center border-b-[0.5px] pb-[10px] border-white border-opacity-25">
           <p className="text-3xl font-font-slide font-bold ">Track</p>
-          <div className="space-x-5 mr-[100px]">
+          {/* <div className="space-x-5 mr-[100px]">
             <button className="border-2  p-2 rounded-lg text-white">
               Your Insights
             </button>
@@ -156,24 +224,27 @@ function Profile() {
             <button className="bg-[#7c7979] text-white px-3 py-2 rounded-lg">
               Station
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       {actionmodal ? (
         <div className="px-[40px] cursor-pointer w-fit textt-white pt-[64px] mb-[12px] flex">
-          <ul className="w-[750px]">
-            {/* <p className="text-xl font-font-slide text-white font-bold mb-[8px]">
-                #title
-              </p> */}
-            {/* <hr className="mb-[30px]"/> */}
+          <ul className="w-[1000px]">
             {songs.map((item: Song, idx) => (
               <li
                 className="flex items-center text-white space-x-10 space-y-1 pr-4
                 hover:bg-white hover:bg-opacity-5 hover:rounded-lg px-2 pb-2"
                 key={idx}
               >
-                <p>{idx}</p>
-                <div>
+                {isplaying === idx ? (
+                  <FaPlay
+                    className="w-[100px] text-center text-opacity-80 text-white"
+                    onClick={() => handlePlaying(idx, item)}
+                  ></FaPlay>
+                ) : (
+                  <p className="w-[100px] text-center">{idx}</p>
+                )}
+                <div onClick={() => handlePlayClick(item)}>
                   <img
                     src={item.image}
                     alt="Image Item"
@@ -182,31 +253,40 @@ function Profile() {
                 </div>
 
                 <div className="w-full ml-4 text-white flex justify-between">
-                  <div className="text-base font-bold w-2/3">
-                    <Link href={`/Profile/song/${item.title}`}>{item.title}</Link>
+                  <div className="text-base font-bold w-2/3 transition">
+                    <Link
+                      href={`/Profile/song/${item.title}`}
+                      className="hover:border-b-[1px] border-white border-opacity-50"
+                    >
+                      {item.title}
+                    </Link>
                   </div>
                   <div className="w-fit mr-[36px]">
-                    <p>
-                      {formatDateString(item.date as any)}
-                    </p>
+                    <p>{formatDateString(item.date as any)}</p>
                   </div>
-                  <div className="flex space-x-16">
-                    <div className="w-fit border-2 items-center px-2 space-x-4 rounded-md">
-                      {/* {isliked.some((l: Like) => l.songId === item.id && l.userId === user?.id)  */}
-                      {likedSongs.includes(item.id)
-                         ? <AiFillHeart onClick={() => unlikeSong(item.id, user?.id)}></AiFillHeart> : 
-                        <AiOutlineHeart onClick={() => likeSong(item.id, user?.id)}></AiOutlineHeart>
-                      }
-                      {/* <AiOutlineHeart></AiOutlineHeart> */}
+                  <div className="flex space-x-16 items-center pb-1">
+                    <div className="w-fit border-2 items-center px-2 space-x-4 rounded-md border-white border-opacity-25 pb-1">
+                      {likedSongs.includes(item.id) ? (
+                        <AiFillHeart
+                          onClick={() => unlikeSong(item.id, user?.id)}
+                        ></AiFillHeart>
+                      ) : (
+                        <AiOutlineHeart
+                          onClick={() => likeSong(item.id, user?.id)}
+                        ></AiOutlineHeart>
+                      )}
                     </div>
                     <div
-                      className="relative border-2 w-fit rounded-md flex items-center px-2 space-x-4"
+                      className="relative"
                       onClick={() => handleShowcase(idx)}
                     >
                       {showcase === idx ? (
                         <div className="absolute h-fit w-[90px] rounded-lg top-8 right-[0.1px]">
                           {dataMore.map((state, idxM) => (
-                            <div className="p-1 border-[1px] text-xs rounded-lg bg-[#1e1e1f] text-center flex flex-col">
+                            <div
+                              className="border-[1px] text-xs rounded-lg bg-[#1e1e1f] text-center border-white border-opacity-25"
+                              onClick={() => DeleteSong(item)}
+                            >
                               <p>{state.state}</p>
                             </div>
                           ))}
@@ -214,8 +294,10 @@ function Profile() {
                       ) : (
                         ""
                       )}
-                      <CgMore></CgMore>
-                      <p className="text-sm">More</p>
+                      <div className="flex px-2 space-x-4 items-center border-2 w-fit rounded-md border-white border-opacity-25">
+                        <CgMore className=""></CgMore>
+                        <p className="text-base">More</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -225,76 +307,19 @@ function Profile() {
 
           <div className="w-fit text-white border-l-[0.1px] pl-12 space-y-6 border-white border-opacity-25">
             <div className=" text-base font-bold">
-              <div className=" flex space-x-12 h-[30%]">
+              <div className=" flex space-x-12 h-[30%] p-2">
                 <div className="border-r-[1px]">
                   <p className="pr-8">Follower</p>
-                  <p>0</p>
+                  <p className="text-center mr-4">0</p>
                 </div>
                 <div className="border-r-[1px]">
                   <p className="pr-8">Following</p>
-                  <p>0</p>
+                  <p className="text-center mr-4">0</p>
                 </div>
                 <div className="">
                   <p className="pr-8">Track</p>
-                  <p>0</p>
+                  <p className="text-center mr-4">0</p>
                 </div>
-              </div>
-            </div>
-            <div>
-              <h1 className="text-lg font-bold">For Artists</h1>
-              <div
-                className="flex items-center space-x-6 my-4 hover:shadow-xl
-                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500"
-              >
-                <Image
-                  src={mtp}
-                  alt="img artists"
-                  className="h-10 w-10 rounded-full border-2"
-                />
-                <div className="space-y-1 w-[100px]">
-                  <p className="text-sm">Son Tung Mtp</p>
-                  <p className="flex">
-                    <HiUsers></HiUsers>
-                    <span className="text-xs">100k.follow</span>
-                  </p>
-                </div>
-                <TiTick className="text-white"></TiTick>
-              </div>
-              <div
-                className="flex items-center space-x-6 my-4 hover:shadow-xl 
-                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500"
-              >
-                <Image
-                  src={wean}
-                  alt="img artists"
-                  className="h-10 w-10 rounded-full border-2"
-                />
-                <div className="space-y-1 w-[100px]">
-                  <p className="text-sm">Wean</p>
-                  <p className="flex">
-                    <HiUsers></HiUsers>
-                    <span className="text-xs">100k.follow</span>
-                  </p>
-                </div>
-                <TiTick className="text-white"></TiTick>
-              </div>
-              <div
-                className="flex items-center space-x-6 my-4 hover:shadow-xl 
-                            hover:p-2 hover:rounded-2xl hover:border-b-2 hover:border-gray-500"
-              >
-                <Image
-                  src={mck}
-                  alt="img artists"
-                  className="h-10 w-10 rounded-full border-2"
-                />
-                <div className="space-y-1 w-[100px]">
-                  <p className="text-sm">MCK</p>
-                  <p className="flex">
-                    <HiUsers></HiUsers>
-                    <span className="text-xs">100k.follow</span>
-                  </p>
-                </div>
-                <TiTick className="text-white"></TiTick>
               </div>
             </div>
           </div>
