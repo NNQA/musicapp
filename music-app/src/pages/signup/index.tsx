@@ -7,6 +7,7 @@ import axios, { AxiosResponse } from "axios";
 import Router, { useRouter } from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 function Signup() {
   const router = useRouter();
@@ -18,6 +19,7 @@ function Signup() {
   const [showCpw, setShowCpw] = useState(false);
   const [errorLogin, setErrorLogin] = useState("");
   const [loading, setLoading] = useState(false);
+  const [verify, setVerify] = useState("");
 
   const hanldeSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -33,14 +35,15 @@ function Signup() {
           cfpassword,
         })
         .then((data) => {
-          Router.push("/login");
+          setLoading(false);
+          setVerify("Please Check Your mail");
         });
-      setLoading(false);
     } catch (error: any) {
       setLoading(false);
       setErrorLogin(error.response.data.message);
       console.log(error.response.data.message);
     }
+    
   };
   return (
     <div className="cursor-pointer overflow-y-auto h-full bg-[#1e1e1f]">
@@ -192,6 +195,13 @@ function Signup() {
         {errorLogin ? (
           <div className="items-center">
             <p className="w-fit mx-auto pb-3 text-red-600">{errorLogin}</p>
+          </div>
+        ) : (
+          ""
+        )}
+        {verify ? (
+          <div className="items-center">
+            <p className="w-fit mx-auto pb-3 text-[#00ADB5]">{verify}</p>
           </div>
         ) : (
           ""

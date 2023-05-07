@@ -1,15 +1,9 @@
 import bcrypt from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/server/prisma";
-import formidable from "formidable";
-import cloudinary from "cloudinary";
-import { v2 as cloudinaryV2 } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import multer from "multer";
-import { IncomingForm } from "formidable";
-import { NextResponse } from "next/server";
-import { emit } from "process";
+import { transporter } from "@/lib/utilts/nodemailer";
 
+const serverName = process.env.EMAIL_SERVER_USER;
 
 export const config = {
   api: {
@@ -72,12 +66,38 @@ export default async function handler(
 }
 
 // Create a product
+// async function createUser(
+//   email: string,
+//   user: string,
+//   password: string,
+//   cfpassword: string
+// ): Promise<{ message?: string, error?: boolean } | any>{
+//   const existUser = await prisma.user.findUnique({
+//     where: {
+//       email: email,
+//     },
+//   });
+//   if (existUser) {
+//     return { error: true, message: "Email already exists" };
+//   }
+//   const hashedPassword = await bcrypt.hash(password, 12);
+
+//   const User: any = await prisma.user.create({
+//     data: {
+//       email,
+//       name: user,
+//       hashedPassword,
+//       image: "",
+//     },
+//   });
+//   return User;
+// }
 async function createUser(
   email: string,
   user: string,
   password: string,
   cfpassword: string
-): Promise<{ message?: string, error?: boolean } | any>{
+): Promise<{ message?: string; error?: boolean } | any> {
   const existUser = await prisma.user.findUnique({
     where: {
       email: email,
@@ -96,6 +116,19 @@ async function createUser(
       image: "",
     },
   });
+  const mailOption = {
+    from: serverName,
+    to: email,
+  };
+  try {
+    await transporter.sendMail({
+      ...mailOption,
+      text: "asdasd",
+      html: '<p>You have successfully registered, you need to login to experience our service:</p><a href="http://localhost:3000/login" style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;">Go to Login</a>',
+    });
+  } catch (e) {
+    console.log(e);
+  }
   return User;
 }
 
