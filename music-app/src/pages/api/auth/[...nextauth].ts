@@ -1,13 +1,22 @@
-import NextAuth from "next-auth";
+import NextAuth, { Theme } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/server/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
+import EmailProvider from "next-auth/providers/email";
+import { createTransport } from "nodemailer"
 
 
+/** Email Text body (fallback for email clients that don't render HTML, e.g. feature phones) */
+function text({ url, host }: { url: string; host: string }) {
+  return `Sign in to ${host}\n${url}\n\n`
+}
+
+const PORT = Number(process.env.PORT ?? 587);
 const secret = process.env.NEXTAUTH_SECRET;
 export default NextAuth({
+  
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,

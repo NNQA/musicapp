@@ -101,7 +101,7 @@ export default function Component() {
                     It is not valid email address
                   </span>
                 )}
-                <hr />
+                <hr className="w-[220px]"/>
               </div>
               <div className="space-y-3">
                 <p className="text-xl font-font-slide text-white font-bold mb-[8px]">
@@ -133,14 +133,22 @@ export default function Component() {
                     ""
                   )}
                 </div>
-                <hr />
+                <hr className="w-[220px]"/>
               </div>
-              <button
-                className="bg-white rounded-lg bg-opacity-20 w-[86%] px-1 py-2
+              <div className="flex flex-col space-y-4">
+                <Link
+                  href="/forgot"
+                  className="text-sm text-[#00ADB5] right-0"
+                >
+                  Forgot password?
+                </Link>
+                <button
+                  className="bg-white rounded-lg bg-opacity-20 w-[86%] px-1 py-2
                                 transition duration-300 hover:translate-x-2 hover:shadow-2xl hover:-translate-y-2"
-              >
-                Log in
-              </button>
+                >
+                  Log in
+                </button>
+              </div>
               <div className="grid grid-cols-3 text-gray-900 items-center w-[80%]">
                 <hr className="border-gray-500" />
                 <p className="text-[10px] text-center text-white">OR</p>
@@ -150,7 +158,7 @@ export default function Component() {
                 className="bg-white rounded-lg bg-opacity-20 px-1 py-2 
                                 transition duration-300 hover:translate-x-2 hover:shadow-2xl 
                                 hover:-translate-y-2 flex items-center justify-center w-[86%]"
-                onClick={() => signIn('google')}
+                onClick={() => signIn("google")}
               >
                 <p>Log in with Google</p>
                 <FcGoogle className="pt-1 h-5 w-5" />
