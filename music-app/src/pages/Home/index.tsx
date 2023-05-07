@@ -3,7 +3,12 @@ import { Song } from "@/lib/utilts/model";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { HiPlayCircle } from "react-icons/hi2";
-import { setAppeat, setCurrentSong, setDuration, setPlaying } from "@/redux/reducer";
+import {
+  setAppeat,
+  setCurrentSong,
+  setSong,
+  setPlaying,
+} from "@/redux/reducer";
 function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
   const { playing, currentSong, appear } = useSelector(
@@ -24,18 +29,16 @@ function Home() {
   }, []);
 
   const handlePlayClick = (song: Song) => {
+    dispatch(setSong(songs));
     if (currentSong === null) {
       dispatch(setCurrentSong(song));
       dispatch(setPlaying(true));
-      dispatch(setDuration(audioRef.current?.duration));
       dispatch(setAppeat(true));
     } else if (song !== currentSong) {
       if (playing) {
         dispatch(setPlaying(false));
-        dispatch(setDuration(audioRef.current?.duration));
         dispatch(setCurrentSong(song));
       } else {
-        dispatch(setDuration(audioRef.current?.duration));
         dispatch(setCurrentSong(song));
       }
       dispatch(setPlaying(true));
@@ -43,7 +46,6 @@ function Home() {
       if (playing) {
         dispatch(setPlaying(false));
       } else {
-        dispatch(setDuration(audioRef.current?.duration));
         dispatch(setPlaying(true));
       }
     }
