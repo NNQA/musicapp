@@ -18,9 +18,6 @@ export default function Home({
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    console.log("asdsd");
-  });
   return (
     <div>
     </div>

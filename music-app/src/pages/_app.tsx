@@ -4,8 +4,9 @@ import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import store from "@/redux";
 import Layout from "./layout/layout";
+import { toast, ToastContainer } from "react-toastify";
 import { Suspense, useEffect, useMemo } from "react";
-import Loading from "./loading";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({
   Component,
@@ -14,9 +15,19 @@ export default function App({
   const memoizedLayout = useMemo(() => {
     return (
       <Layout>
-        <Suspense fallback={<Loading />}>
-          <Component {...pageProps} />
-        </Suspense>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+          theme="light"
+        />
+        <Component {...pageProps} />
       </Layout>
     );
   }, [Component, pageProps]);
