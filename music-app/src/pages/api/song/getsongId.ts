@@ -15,6 +15,9 @@ export default async function handler(
           where: {
             title: id as string,
           },
+          include: {
+            author: true,
+          }
         });
         console.log(existSong);
         res.status(200).json(existSong);

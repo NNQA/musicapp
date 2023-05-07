@@ -46,12 +46,10 @@ export default async function handler(
           console.log(file.image);
           if (!file.image || !file.audio) {
             console.log("adsadad");
-            return res
-              .status(400)
-              .json({
-                message:
-                  "Image File and audio file have trouble or dont have exist",
-              });
+            return res.status(400).json({
+              message:
+                "Image File and audio file have trouble or dont have exist",
+            });
           }
 
           const imageUrlPromise = cloudinary.uploader
@@ -107,8 +105,8 @@ export default async function handler(
       try {
         const allSongs = await prisma.song.findMany({
           include: {
-            author:true,
-          }
+            author: true,
+          },
         });
         return res.status(200).json(allSongs);
       } catch (error: any) {
@@ -120,6 +118,28 @@ export default async function handler(
       break;
 
     case "DELETE":
+      try {
+        const { id } = req.query;
+        console.log(id);
+        await prisma.like.deleteMany({
+          where: {
+            songId: id as string,
+          },
+        });
+        await prisma.comment.deleteMany({
+          where: {
+            songId: id as string,
+          },
+        });
+        const deleteSong = await prisma.song.delete({
+          where: {
+            id: id as string,
+          },
+        });
+        return res.status(200).json(deleteSong);
+      } catch (e) {
+        return res.status(401).json({ message: "Error" });
+      }
       break;
 
     default:
