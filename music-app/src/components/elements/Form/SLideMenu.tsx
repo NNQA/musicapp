@@ -4,6 +4,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { FcMusic } from "react-icons/fc";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import router from "next/router";
 
 interface ButtonProps {
   isSelected: number;
@@ -49,17 +50,19 @@ function SLideMenu() {
           {data.map((item, index) => (
             <li
               key={index}
+              
               className={`list-none py-3 px-2 w-[209px] ${
                 buttonState.isSelected === index
                   ? "bg-white rounded-lg bg-opacity-20"
                   : ""
-              }`}
+              }`
+              
+            }
               onClick={() => handleButtonClick(index)}
             >
-              <Link
-                href={`/${item.name}`}
+              <div
                 className="flex flex-row space-x-2 items-center text-lg font-font-slide"
-                onClick={() => handleButtonClick(index)}
+                onClick={() => router.push(`/${item.name}`, undefined, { shallow: true })}
               >
                 <item.icon className="text-[#fa586a]"></item.icon>
                 <p
@@ -69,7 +72,7 @@ function SLideMenu() {
                 >
                   {item.name}
                 </p>
-              </Link>
+              </div>
             </li>
           ))}
         </ul>

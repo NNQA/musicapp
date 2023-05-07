@@ -1,15 +1,17 @@
 import { Song } from "@/lib/utilts/model";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Controls from "./Controls";
 import Player from "./Player";
 import Seekbar from "./Seekbar";
 import VolumeBar from "./Volumebar";
+import { setNextSong, setPlaying, setPreSong } from "@/redux/reducer";
 
 const Playback = () => {
-  const { playing, currentSong, duration, appear } = useSelector(
+  const { playing, currentSong, currentSongIndex, songs, appear } = useSelector(
     (state: any) => state.audioPlayer
   );
+  const dispatch = useDispatch();
   const [currentDuration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -18,31 +20,47 @@ const Playback = () => {
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
 
+  const handlePlayPause = () => {
+    if (playing) {
+      dispatch(setPlaying(false));
+    } else {
+      dispatch(setPlaying(true));
+    }
+  };
   const handleTimeUpdate = (event: any) => {
     setCurrentTime(event.target.currentTime);
   };
-  useEffect(() => {
+  const handleNextSong = () => {
+    if(shuffle) {
+      dispatch(setNextSong(Math.floor(Math.random() * songs.length)));  
+    } else {
+      dispatch(setNextSong(currentSongIndex + 1));  
+    }
+  };
+  const handlePrevSong = () => {
+    dispatch(setPreSong(currentSongIndex - 1));
+  };
 
-  },[appear])
+  useEffect(() => {}, [appear]);
   return (
     <div className="px-[52px] flex items-center bg-[#2f2f2f] fixed bottom-0 w-full">
       <div className="flex-1 flex items-center py-6 space-x-24">
         <Controls
           isPlaying={playing}
           //   isActive={isActive}
-          //   repeat={repeat}
-          //   setRepeat={setRepeat}
-          //   shuffle={shuffle}
-          //   setShuffle={setShuffle}
-          //   currentSongs={currentSongs}
-          //   handlePlayPause={handlePlayPause}
-          //   handlePrevSong={handlePrevSong}
-          //   handleNextSong={handleNextSong}
+          repeat={repeat}
+          setRepeat={setRepeat}
+          shuffle={shuffle}
+          setShuffle={setShuffle}
+          currentSongs={currentSong}
+          handlePlayPause={handlePlayPause}
+          handlePrevSong={handlePrevSong}
+          handleNextSong={handleNextSong}
         />
         <Seekbar
           value={appTime}
           min="0"
-          max={duration}
+          max={currentDuration}
           onInput={(event: any) => setSeekTime(event.target.value)}
           setSeekTime={setSeekTime}
           appTime={appTime}
@@ -53,8 +71,9 @@ const Playback = () => {
           isPlaying={playing}
           seekTime={seekTime}
           repeat={repeat}
-          // currentIndex={currentIndex}  
-          // onEnded={handleNextSong}
+          setDuration={setDuration}
+          currentIndex={currentSongIndex}
+          onEnded={handleNextSong}
           onTimeUpdate={(event: any) => setAppTime(event.target.currentTime)}
           onLoadedData={(event: any) => setDuration(event.target.duration)}
         ></Player>
@@ -69,7 +88,6 @@ const Playback = () => {
         />
       </div>
     </div>
-
   );
 };
 export default Playback;

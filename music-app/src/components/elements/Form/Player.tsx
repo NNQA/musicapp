@@ -1,3 +1,5 @@
+
+import { useRouter } from "next/router";
 import React, { useRef, useEffect } from "react";
 
 const Player = ({
@@ -9,8 +11,10 @@ const Player = ({
   onTimeUpdate,
   onLoadedData,
   repeat,
+  setDuration,
 }: any) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (isPlaying && audioRef.current) {
@@ -26,6 +30,11 @@ const Player = ({
     }
   }, [seekTime]);
   useEffect(() => {
+    if (audioRef.current?.duration) {
+      setDuration(audioRef.current?.duration);
+    }
+  }, []);
+  useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
     }
@@ -33,7 +42,8 @@ const Player = ({
   return (
     <div className="h-full">
       {activeSong ? (
-        <div className="flex space-x-6 items-center cursor-pointer">
+        <div className="flex space-x-6 items-center cursor-pointer"
+          onClick={() => router.push(`/song/${activeSong?.title}`)}>
           <img
             src={activeSong.image}
             alt="img song"

@@ -3,12 +3,14 @@ import { RiHeadphoneFill } from "react-icons/ri";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { getSession } from "next-auth/react";
+import { NextPageContext } from "next";
+import { useRouter } from "next/router";
+
 function BarUser() {
-  const { playing, currentSong } = useSelector(
-    (state: any) => state.audioPlayer
-  );
+  const route = useRouter();
   return (
-    <div className="bg-[#2b2b2b] py-4 w-full cursor-pointer">
+    <div className="bg-[#1e1e1f] border-b-[1px] border-white border-opacity-25 py-4 w-full cursor-pointer">
       <div className="flex justify-between items-center h-full text-[#f5f5f7]">
         <div className="font-font-slide h-[32px] ml-12 flex items-end space-x-2">
           <p>Enjoin World Music</p>
@@ -16,7 +18,7 @@ function BarUser() {
         </div>
         <div className="flex space-x-6 mr-24 items-center">
           <BiCategoryAlt></BiCategoryAlt>
-          <FaUserCircle className="text-2xl"></FaUserCircle>
+          <FaUserCircle className="text-2xl" onClick={() => route.push("/Profile")}></FaUserCircle>
         </div>
       </div>
     </div>

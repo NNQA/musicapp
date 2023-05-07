@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Seekbar = ({ value, min, max, onInput, setSeekTime, appTime }: any) => {
   const getTime = (time: any) =>
@@ -14,7 +14,7 @@ const Seekbar = ({ value, min, max, onInput, setSeekTime, appTime }: any) => {
         min={min}
         max={max}
         onInput={onInput}
-        className="w-[600px] h-1 mx-4 rounded-lg"
+        className="w-[800px] h-1 mx-4 rounded-lg"
       />
       <p className="text-white">{max === 0 ? "0:00" : getTime(max)}</p>
       <div className="space-x-6 ml-4 items-center">
