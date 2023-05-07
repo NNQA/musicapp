@@ -38,3 +38,19 @@ export interface Like {
   user: User;
   song: Song;
 }
+export interface Playlist {
+  id: string;
+  title: string;
+  img?: string | null;
+  userId: string;
+
+  user: User; // Assuming you have a separate `User` interface defined
+}
+export interface Playlist_Song {
+  id: string;
+  songId: string;
+  playlistId: string;
+
+  song: Song;
+  playlist: Playlist;
+}
