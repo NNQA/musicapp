@@ -26,28 +26,27 @@ function Item() {
   }, [id]);
 
   useEffect(() => {
+    console.log("first");
     if (id.id) {
       const pId = id.id;
+      console.log(pId);
       axios
         .post("/api/playlist/getplaylistId", { pId })
         .then((v) => {
+          console.log(v.data);
           setPlaylist(v.data);
         })
         .catch((e) => {
-          toast.error(e.response.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          console.log(e);
         });
     }
   }, [id]);
   const handlePlayClick = (song: Song) => {
+    let songs: Song[] = [];
+    list.forEach((item: Playlist_Song) => {
+      songs.push(item.song as Song);
+    });
+    dispatch(setSong(song));
     if (currentSong === null) {
       dispatch(setCurrentSong(song));
       dispatch(setPlaying(true));
@@ -68,8 +67,23 @@ function Item() {
       }
     }
   };
-
+  const handleNothaveSong = () => {
+    toast.error("No songs in playlist", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
   const handlePlayAll = () => {
+    if (list.length === 0) {
+      handleNothaveSong();
+      return;
+    }
     let song: Song[] = [];
     list.forEach((item: Playlist_Song) => {
       song.push(item.song as Song);
@@ -92,16 +106,7 @@ function Item() {
           setList(v.data);
         })
         .catch((e) => {
-          toast.error(e.response.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          console.log(e);
         });
     }
   }, [playlist, list]);
@@ -169,7 +174,7 @@ function Item() {
         </div>
       </div>
       <div className="ml-[75px] pt-[32px] pb-[8px] flex items-center space-x-12 text-white">
-        {true ? (
+        {!playing ? (
           <AiFillPlayCircle
             className="w-[50px] h-[50px]"
             onClick={() => handlePlayAll()}
@@ -184,7 +189,10 @@ function Item() {
 
       <div className="px-[40px] pt-[32px] pb-[24px]  font-font-slide shadow-lg text-white cursor-pointer">
         {list.map((item: Playlist_Song, index: number) => (
-          <div className="flex justify-between space-x-6 items-center space-y-4 hover:bg-white hover:bg-opacity-10 w-full px-3 py-2 mb-2  rounded-lg">
+          <div
+            key={index}
+            className="flex justify-between space-x-6 items-center space-y-4 hover:bg-white hover:bg-opacity-10 w-full px-3 py-2 mb-2  rounded-lg"
+          >
             <div className="flex  space-x-6 space-y-4 items-center">
               <div className="flex mt-2">
                 <svg
