@@ -256,7 +256,7 @@ function Song() {
           className="w-[200px] h-[180px]"
         ></img>
         <div className="ml-[50px] space-y-6 mt-[60px]">
-          <p className="text-base font-bold">Creater: {user?.name}</p>
+          <p className="text-base font-bold">Creater: {song?.author.name}</p>
           <h1 className="text-5xl font-bold">{song?.title as string}</h1>
           <div className="flex space-x-28">
             <p>Datetime: {formatDateString(song?.date as any)}</p>
