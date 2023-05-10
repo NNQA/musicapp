@@ -6,6 +6,7 @@ import { Session } from "next-auth";
 import axios, { AxiosResponse } from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import { NextPageContext } from "next";
+import { toast } from "react-toastify";
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
   console.log(session);
@@ -67,25 +68,65 @@ function Upload({ data }: any) {
       formData.append("audio", audio);
     }
     const id: string = userI.id;
-    const email: string = userI.email
+    const email: string = userI.email;
     formData.append("id", id);
     formData.append("email", email);
     try {
-      const tempVariant: AxiosResponse = await axios.post(
-        "/api/song/server",
-        formData
-      );
+      axios
+        .post("/api/song/server", formData)
+        .then((r) => {
+          setLoading(false);
+          setErrorlogin("");
+          setImgcl("");
+          setAudioCl("");
+          setImage("");
+          setDescription("");
+          toast.success("Upload sucessfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        })
+        .catch((e) => {
+          setLoading(false);
+          setErrorlogin("");
+          setImgcl("");
+          setAudioCl("");
+          setImage("");
+          setDescription("");
+          toast.error(e.response.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
+    } catch (error: any) {
       setLoading(false);
       setErrorlogin("");
-      setSuccess("Successfully");
       setImgcl("");
       setAudioCl("");
       setImage("");
       setDescription("");
-    } catch (error: any) {
-      setErrorlogin(error.response.data.message);
-      setLoading(false);
-      console.log(error.response.data.message);
+      toast.error(e.response.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
     setImgcl("");
     setAudioCl("");
@@ -188,20 +229,6 @@ function Upload({ data }: any) {
             ""
           )}
         </div>
-        {errorlogin ? (
-          <div className="items-center">
-            <p className="w-fit mx-auto pb-3 text-red-600">{errorlogin}</p>
-          </div>
-        ) : (
-          ""
-        )}
-        {success ? (
-          <div className="items-center">
-            <p className="w-fit mx-auto pb-3 text-green-600">{success}</p>
-          </div>
-        ) : (
-          ""
-        )}
       </form>
     </div>
   );
