@@ -5,6 +5,7 @@ import { FcMusic } from "react-icons/fc";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
+import Router from "next/router";
 
 interface ButtonProps {
   isSelected: number;
@@ -30,7 +31,10 @@ function SLideMenu() {
         <FcMusic></FcMusic>
         <p className="text-xl font-font-slide">Music Social</p>
       </div>
-      <div className="px-[30px] h-[65px] mt-[12px]">
+      <div
+        className="px-[30px] h-[65px] mt-[12px] space-x-4"
+        onClick={() => Router.push("/Search")}
+      >
         <div className="w-fit items-center border-[0.1px] border-white border-opacity-25 flex p-1 rounded-xl">
           <svg height="12" width="14" viewBox="0 0 16 16" aria-hidden="true">
             <path
@@ -38,11 +42,9 @@ function SLideMenu() {
               d="M11.87 10.835c.018.015.035.03.051.047l3.864 3.863a.735.735 0 1 1-1.04 1.04l-3.863-3.864a.744.744 0 0 1-.047-.051 6.667 6.667 0 1 1 1.035-1.035zM6.667 12a5.333 5.333 0 1 0 0-10.667 5.333 5.333 0 0 0 0 10.667z"
             ></path>
           </svg>
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-[174px] focus:border-none py-[0.8px] pl-[1.5px] ml-[1px] pr-[0.8px] bg-transparent outline-none"
-          />
+          <p className="w-[174px] focus:border-none py-[0.8px] pl-[1.5px] ml-[1px] pr-[0.8px] bg-transparent outline-none">
+            Search
+          </p>
         </div>
       </div>
       <div className="flex items-center font-font-slide px-[28px]">
@@ -50,19 +52,18 @@ function SLideMenu() {
           {data.map((item, index) => (
             <li
               key={index}
-              
               className={`list-none py-3 px-2 w-[209px] ${
                 buttonState.isSelected === index
                   ? "bg-white rounded-lg bg-opacity-20"
                   : ""
-              }`
-              
-            }
+              }`}
               onClick={() => handleButtonClick(index)}
             >
               <div
                 className="flex flex-row space-x-2 items-center text-lg font-font-slide"
-                onClick={() => router.push(`/${item.name}`, undefined, { shallow: true })}
+                onClick={() =>
+                  router.push(`/${item.name}`, undefined, { shallow: true })
+                }
               >
                 <item.icon className="text-[#fa586a]"></item.icon>
                 <p
