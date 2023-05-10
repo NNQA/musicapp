@@ -9,17 +9,18 @@ export default async function handler(
   switch (req.method) {
     case "POST":
       try {
-        const { id } = req.body;
-        console.log(id);
+        const { text } = req.body;
         const existSong = await prisma.song.findUnique({
           where: {
-            title: id as string,
+            title: text as string,
           },
           include: {
             author: true,
           },
         });
-        console.log(existSong);
+        if (!existSong) {
+          return res.status(404).json({ message: "Cant not found title song" });
+        }
         return res.status(200).json(existSong);
       } catch (error: any) {
         return res.status(400).json({ message: error.message });
