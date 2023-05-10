@@ -5,13 +5,6 @@
 
 // module.exports = nextConfig
 module.exports = {
-  experimental: {
-    typedRoutes: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  disableExperimentalFeaturesWarning: true,
   reactStrictMode: true,
   images: {
     domains: ["res.cloudinary.com"],
