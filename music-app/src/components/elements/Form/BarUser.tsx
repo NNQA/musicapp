@@ -18,7 +18,10 @@ function BarUser() {
         </div>
         <div className="flex space-x-6 mr-24 items-center">
           <BiCategoryAlt></BiCategoryAlt>
-          <FaUserCircle className="text-2xl" onClick={() => route.push("/Profile")}></FaUserCircle>
+          <FaUserCircle
+            className="text-2xl"
+            onClick={() => route.push("/admin")}
+          ></FaUserCircle>
         </div>
       </div>
     </div>
