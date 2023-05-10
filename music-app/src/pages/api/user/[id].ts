@@ -116,19 +116,19 @@ async function createUser(
       image: "",
     },
   });
-  const mailOption = {
-    from: serverName,
-    to: email,
-  };
-  try {
-    await transporter.sendMail({
-      ...mailOption,
-      text: "asdasd",
-      html: '<p>You have successfully registered, you need to login to experience our service:</p><a href="http://localhost:3000/login" style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;">Go to Login</a>',
-    });
-  } catch (e) {
-    console.log(e);
-  }
+  // const mailOption = {
+  //   from: serverName,
+  //   to: email,
+  // };
+  // try {
+  //   await transporter.sendMail({
+  //     ...mailOption,
+  //     text: "asdasd",
+  //     html: '<p>You have successfully registered, you need to login to experience our service:</p><a href="http://localhost:3000/login" style="background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;">Go to Login</a>',
+  //   });
+  // } catch (e) {
+  //   console.log(e);
+  // }
   return User;
 }
 
